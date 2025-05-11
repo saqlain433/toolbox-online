@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from 'react';
@@ -12,7 +11,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 // Basic regex for email format validation (RFC 5322 general compliance)
 // This regex is for basic client-side format checking, not exhaustive.
-const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const EMAIL_REGEX = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
 
 export function EmailValidatorTool() {
@@ -27,18 +26,18 @@ export function EmailValidatorTool() {
       return;
     }
 
-    const isValidFormat = EMAIL_REGEX.test(email);
+    const isValidFormat = EMAIL_REGEX.test(email.trim());
 
     if (isValidFormat) {
       setValidationResult({
         isValid: true,
-        message: `The email address "${email}" appears to have a valid format. For deliverability, server-side checks are needed.`
+        message: `The email address "${email.trim()}" appears to have a valid format. For actual deliverability, server-side checks (e.g., SMTP verification) would be necessary.`
       });
       toast({ title: 'Format Valid', description: 'Email format appears correct.' });
     } else {
       setValidationResult({
         isValid: false,
-        message: `The email address "${email}" does not seem to have a valid format.`
+        message: `The email address "${email.trim()}" does not seem to have a valid format. Please check for typos or missing parts like "@" or a domain extension.`
       });
       toast({ title: 'Invalid Format', description: 'Email format appears incorrect.', variant: 'destructive' });
     }
