@@ -1,4 +1,5 @@
 
+
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -40,6 +41,7 @@ import {
   FileText,
   CalendarDays,
   Parentheses,
+  UploadCloud,
 } from 'lucide-react';
 
 // Dynamically import tool components to enable code splitting
@@ -60,26 +62,29 @@ const LoremIpsumGeneratorTool = dynamic(() => import('@/components/tools/LoremIp
 const RandomPasswordGeneratorTool = dynamic(() => import('@/components/tools/RandomPasswordGeneratorTool').then(mod => mod.RandomPasswordGeneratorTool));
 const HexToRgbTool = dynamic(() => import('@/components/tools/HexToRgbTool').then(mod => mod.HexToRgbTool));
 const AgeCalculatorTool = dynamic(() => import('@/components/tools/AgeCalculatorTool').then(mod => mod.AgeCalculatorTool));
+const SpeechToTextTool = dynamic(() => import('@/components/tools/SpeechToTextTool').then(mod => mod.SpeechToTextTool));
+const BmiCalculatorTool = dynamic(() => import('@/components/tools/BmiCalculatorTool').then(mod => mod.BmiCalculatorTool));
+const PercentageCalculatorTool = dynamic(() => import('@/components/tools/PercentageCalculatorTool').then(mod => mod.PercentageCalculatorTool));
+const JsonFormatterTool = dynamic(() => import('@/components/tools/JsonFormatterTool').then(mod => mod.JsonFormatterTool));
+const ImageCompressorTool = dynamic(() => import('@/components/tools/ImageCompressorTool').then(mod => mod.ImageCompressorTool));
 
 
 // Placeholder components for complex tools
 const PlaceholderTool = ({ name }: { name: string }) => (
-  <div className="p-4 border rounded-lg bg-card">
-    <h2 className="text-xl font-semibold mb-2">{name}</h2>
-    <p className="text-muted-foreground">This tool is under construction. Check back soon!</p>
-     <p className="text-sm mt-2 text-destructive">Note: Full client-side implementation of some tools is highly complex and may have limitations.</p>
+  <div className="p-6 border rounded-lg bg-card shadow-sm">
+    <div className="flex flex-col items-center justify-center text-center h-full">
+      <UploadCloud className="h-16 w-16 text-muted-foreground mb-4" />
+      <h2 className="text-xl font-semibold mb-2 text-foreground">{name}</h2>
+      <p className="text-muted-foreground">This tool is under construction. Check back soon!</p>
+    </div>
   </div>
 );
 
 const YoutubeToMp3Tool = () => <PlaceholderTool name="YouTube to MP3 Converter" />;
 const YoutubeToMp4Tool = () => <PlaceholderTool name="YouTube to MP4 Converter" />;
-const SpeechToTextTool = () => <PlaceholderTool name="Speech to Text" />;
-const BmiCalculatorTool = () => <PlaceholderTool name="BMI Calculator" />;
 const LoanCalculatorTool = () => <PlaceholderTool name="Loan Calculator" />;
-const PercentageCalculatorTool = () => <PlaceholderTool name="Percentage Calculator" />;
 const Base64EncoderTool = () => <PlaceholderTool name="Base64 Encoder" />;
 const Base64DecoderTool = () => <PlaceholderTool name="Base64 Decoder" />;
-const JsonFormatterTool = () => <PlaceholderTool name="JSON Formatter" />;
 const XmlFormatterTool = () => <PlaceholderTool name="XML Formatter" />;
 const HtmlMinifierTool = () => <PlaceholderTool name="HTML Minifier" />;
 const CssMinifierTool = () => <PlaceholderTool name="CSS Minifier" />;
@@ -111,7 +116,6 @@ const TemperatureConverterTool = () => <PlaceholderTool name="Temperature Conver
 const StopwatchTool = () => <PlaceholderTool name="Stopwatch" />;
 const CountdownTimerTool = () => <PlaceholderTool name="Countdown Timer" />;
 const TextDiffCheckerTool = () => <PlaceholderTool name="Text Diff Checker" />;
-const ImageCompressorTool = () => <PlaceholderTool name="Image Compressor" />;
 
 
 export const toolsList: Tool[] = [
@@ -128,9 +132,9 @@ export const toolsList: Tool[] = [
   {
     slug: 'word-counter',
     name: 'Word Counter',
-    description: 'Count words and characters in your text quickly and accurately.',
-    longDescription: 'Easily count the number of words and characters in any text. Useful for writers, students, and anyone needing to meet length requirements.',
-    keywords: ['word count', 'character count', 'text analysis', 'writing tool'],
+    description: 'Count words, characters, sentences and paragraphs in your text.',
+    longDescription: 'Easily count the number of words, characters (with/without spaces), sentences, and paragraphs in any text. Useful for writers, students, and content creators.',
+    keywords: ['word count', 'character count', 'sentence count', 'paragraph count', 'text analysis'],
     icon: SigmaSquare,
     category: 'Text Utilities',
     component: WordCounterTool,
@@ -188,8 +192,8 @@ export const toolsList: Tool[] = [
   {
     slug: 'youtube-to-mp3-converter',
     name: 'YouTube to MP3 Converter',
-    description: 'Convert YouTube videos to MP3 audio files. (Placeholder)',
-    longDescription: 'Extract audio from YouTube videos and save them as MP3 files. Note: Full client-side implementation is complex and may be limited.',
+    description: 'Convert YouTube videos to MP3 audio files.',
+    longDescription: 'Extract audio from YouTube videos and save them as MP3 files. This tool is currently under construction.',
     keywords: ['youtube', 'mp3', 'converter', 'audio extractor', 'download music'],
     icon: Youtube,
     category: 'Converters',
@@ -198,8 +202,8 @@ export const toolsList: Tool[] = [
   {
     slug: 'youtube-to-mp4-converter',
     name: 'YouTube to MP4 Converter',
-    description: 'Download YouTube videos as MP4 files. (Placeholder)',
-    longDescription: 'Download YouTube videos in MP4 format for offline viewing. Note: Full client-side implementation is complex and may be limited.',
+    description: 'Download YouTube videos as MP4 files.',
+    longDescription: 'Download YouTube videos in MP4 format for offline viewing. This tool is currently under construction.',
     keywords: ['youtube', 'mp4', 'video downloader', 'converter', 'offline video'],
     icon: Youtube,
     category: 'Converters',
@@ -265,45 +269,396 @@ export const toolsList: Tool[] = [
     category: 'Calculators', 
     component: AgeCalculatorTool 
   },
-  { slug: 'speech-to-text', name: 'Speech to Text', description: 'Convert spoken words into text.', keywords: ['speech to text', 'voice recognition'], icon: Mic, category: 'Text Utilities', component: SpeechToTextTool },
-  { slug: 'bmi-calculator', name: 'BMI Calculator', description: 'Calculate Body Mass Index.', keywords: ['bmi calculator', 'health tool'], icon: Calculator, category: 'Calculators', component: BmiCalculatorTool },
-  { slug: 'loan-calculator', name: 'Loan Calculator', description: 'Calculate loan payments.', keywords: ['loan calculator', 'finance tool'], icon: Calculator, category: 'Calculators', component: LoanCalculatorTool },
-  { slug: 'percentage-calculator', name: 'Percentage Calculator', description: 'Calculate percentages easily.', keywords: ['percentage calculator', 'math tool'], icon: Percent, category: 'Calculators', component: PercentageCalculatorTool },
-  { slug: 'base64-encoder', name: 'Base64 Encoder', description: 'Encode text to Base64.', keywords: ['base64 encode', 'data encoding'], icon: Parentheses, category: 'Developer Tools', component: Base64EncoderTool },
-  { slug: 'base64-decoder', name: 'Base64 Decoder', description: 'Decode Base64 to text.', keywords: ['base64 decode', 'data decoding'], icon: Parentheses, category: 'Developer Tools', component: Base64DecoderTool },
-  { slug: 'json-formatter', name: 'JSON Formatter', description: 'Format and validate JSON data.', keywords: ['json formatter', 'json validator'], icon: FileJson, category: 'Developer Tools', component: JsonFormatterTool },
-  { slug: 'xml-formatter', name: 'XML Formatter', description: 'Format and validate XML data.', keywords: ['xml formatter', 'xml validator'], icon: FileJson, category: 'Developer Tools', component: XmlFormatterTool },
-  { slug: 'html-minifier', name: 'HTML Minifier', description: 'Minify HTML code.', keywords: ['html minifier', 'code optimization'], icon: Minimize, category: 'Developer Tools', component: HtmlMinifierTool },
-  { slug: 'css-minifier', name: 'CSS Minifier', description: 'Minify CSS code.', keywords: ['css minifier', 'code optimization'], icon: Minimize, category: 'Developer Tools', component: CssMinifierTool },
-  { slug: 'javascript-minifier', name: 'JavaScript Minifier', description: 'Minify JavaScript code.', keywords: ['js minifier', 'code optimization'], icon: Minimize, category: 'Developer Tools', component: JavaScriptMinifierTool },
-  { slug: 'image-to-base64', name: 'Image to Base64', description: 'Convert images to Base64 strings.', keywords: ['image to base64', 'image encoding'], icon: ImageIcon, category: 'Converters', component: ImageToBase64Tool },
-  { slug: 'base64-to-image', name: 'Base64 to Image', description: 'Convert Base64 strings to images.', keywords: ['base64 to image', 'image decoding'], icon: ImageIcon, category: 'Converters', component: Base64ToImageTool },
-  { slug: 'time-converter', name: 'Time Converter', description: 'Convert between time units.', keywords: ['time converter', 'unit conversion'], icon: Clock, category: 'Converters', component: TimeConverterTool },
-  { slug: 'epoch-to-human-date-converter', name: 'Epoch to Human Date Converter', description: 'Convert Epoch timestamps to readable dates.', keywords: ['epoch converter', 'timestamp tool'], icon: CalendarDays, category: 'Converters', component: EpochToHumanDateConverterTool },
-  { slug: 'text-repeater', name: 'Text Repeater', description: 'Repeat text multiple times.', keywords: ['text repeater', 'string tool'], icon: Repeat, category: 'Text Utilities', component: TextRepeaterTool },
-  { slug: 'remove-duplicate-lines', name: 'Remove Duplicate Lines', description: 'Remove duplicate lines from text.', keywords: ['duplicate lines remover', 'text cleanup'], icon: RemoveFormatting, category: 'Text Utilities', component: RemoveDuplicateLinesTool },
-  { slug: 'text-sorting-tool', name: 'Text Sorting Tool', description: 'Sort lines of text alphabetically.', keywords: ['text sorter', 'alphabetical sort'], icon: SortAsc, category: 'Text Utilities', component: TextSortingTool },
-  { slug: 'online-notepad', name: 'Online Notepad', description: 'Simple online notepad.', keywords: ['notepad online', 'text editor'], icon: Notebook, category: 'Productivity', component: OnlineNotepadTool },
-  { slug: 'palindrome-checker', name: 'Palindrome Checker', description: 'Check if text is a palindrome.', keywords: ['palindrome checker', 'string tool'], icon: SpellCheck, category: 'Text Utilities', component: PalindromeCheckerTool },
-  { slug: 'number-to-words-converter', name: 'Number to Words Converter', description: 'Convert numbers to words.', keywords: ['number to words', 'text conversion'], icon: Type, category: 'Converters', component: NumberToWordsConverterTool },
-  { slug: 'words-to-number-converter', name: 'Words to Number Converter', description: 'Convert words to numbers.', keywords: ['words to number', 'text conversion'], icon: Calculator, category: 'Converters', component: WordsToNumberConverterTool },
-  { slug: 'text-encryptor-decryptor', name: 'Text Encryptor/Decryptor', description: 'Encrypt and decrypt text.', keywords: ['text encryption', 'text decryption', 'security'], icon: Lock, category: 'Security', component: TextEncryptorDecryptorTool },
-  { slug: 'binary-to-decimal-converter', name: 'Binary to Decimal Converter', description: 'Convert binary numbers to decimal.', keywords: ['binary to decimal', 'number system'], icon: Binary, category: 'Converters', component: BinaryToDecimalConverterTool },
-  { slug: 'decimal-to-binary-converter', name: 'Decimal to Binary Converter', description: 'Convert decimal numbers to binary.', keywords: ['decimal to binary', 'number system'], icon: Binary, category: 'Converters', component: DecimalToBinaryConverterTool },
-  { slug: 'ip-address-checker', name: 'IP Address Checker', description: 'Check your IP address.', keywords: ['ip address', 'network tool'], icon: Globe, category: 'Network Tools', component: IpAddressCheckerTool },
-  { slug: 'domain-age-checker', name: 'Domain Age Checker', description: 'Check the age of a domain.', keywords: ['domain age', 'seo tool'], icon: Globe, category: 'SEO Tools', component: DomainAgeCheckerTool },
-  { slug: 'meta-tag-generator', name: 'Meta Tag Generator', description: 'Generate HTML meta tags.', keywords: ['meta tag generator', 'seo tool'], icon: Tag, category: 'SEO Tools', component: MetaTagGeneratorTool },
-  { slug: 'utm-link-generator', name: 'UTM Link Generator', description: 'Generate UTM tracking links.', keywords: ['utm generator', 'marketing tool'], icon: Link2, category: 'Marketing Tools', component: UtmLinkGeneratorTool },
-  { slug: 'email-validator', name: 'Email Validator', description: 'Validate email addresses.', keywords: ['email validator', 'data validation'], icon: MailCheck, category: 'Validation Tools', component: EmailValidatorTool },
-  { slug: 'credit-card-validator', name: 'Credit Card Validator', description: 'Validate credit card numbers (Luhn).', keywords: ['credit card validator', 'luhn algorithm'], icon: CreditCard, category: 'Validation Tools', component: CreditCardValidatorTool },
-  { slug: 'md5-hash-generator', name: 'MD5 Hash Generator', description: 'Generate MD5 hashes.', keywords: ['md5 generator', 'hashing tool'], icon: Hash, category: 'Security', component: Md5HashGeneratorTool },
-  { slug: 'sha256-hash-generator', name: 'SHA256 Hash Generator', description: 'Generate SHA256 hashes.', keywords: ['sha256 generator', 'hashing tool'], icon: Hash, category: 'Security', component: Sha256HashGeneratorTool },
-  { slug: 'unit-converter', name: 'Unit Converter', description: 'Convert various units (length, weight).', keywords: ['unit converter', 'measurement tool'], icon: Scale, category: 'Converters', component: UnitConverterTool },
-  { slug: 'temperature-converter', name: 'Temperature Converter', description: 'Convert C/F/K temperatures.', keywords: ['temperature converter', 'conversion tool'], icon: Thermometer, category: 'Converters', component: TemperatureConverterTool },
-  { slug: 'stopwatch', name: 'Stopwatch', description: 'Online stopwatch timer.', keywords: ['stopwatch', 'timer online'], icon: Timer, category: 'Productivity', component: StopwatchTool },
-  { slug: 'countdown-timer', name: 'Countdown Timer', description: 'Online countdown timer.', keywords: ['countdown timer', 'timer online'], icon: Timer, category: 'Productivity', component: CountdownTimerTool },
-  { slug: 'text-diff-checker', name: 'Text Diff Checker', description: 'Compare two texts and find differences.', keywords: ['text diff', 'compare text'], icon: Shuffle, category: 'Text Utilities', component: TextDiffCheckerTool },
-  { slug: 'image-compressor', name: 'Image Compressor', description: 'Compress images client-side.', keywords: ['image compressor', 'optimize images'], icon: ImageIcon, category: 'Media Tools', component: ImageCompressorTool },
+  { 
+    slug: 'speech-to-text', 
+    name: 'Speech to Text', 
+    description: 'Convert spoken words into written text using your microphone.', 
+    longDescription: 'Use your browser\'s speech recognition capabilities to transcribe audio into text in real-time. Supports multiple languages.',
+    keywords: ['speech to text', 'voice recognition', 'transcription', 'dictation'], 
+    icon: Mic, 
+    category: 'Text Utilities', 
+    component: SpeechToTextTool 
+  },
+  { 
+    slug: 'bmi-calculator', 
+    name: 'BMI Calculator', 
+    description: 'Calculate your Body Mass Index (BMI) using metric or imperial units.', 
+    longDescription: 'Determine your Body Mass Index by entering your height and weight. Supports both metric (cm, kg) and imperial (ft, in, lbs) units.',
+    keywords: ['bmi calculator', 'health tool', 'body mass index', 'weight management'], 
+    icon: Calculator, 
+    category: 'Calculators', 
+    component: BmiCalculatorTool 
+  },
+  { 
+    slug: 'loan-calculator', 
+    name: 'Loan Calculator', 
+    description: 'Calculate loan payments, interest, and amortization schedules.', 
+    longDescription: 'Estimate your loan payments, total interest paid, and view an amortization schedule based on loan amount, interest rate, and term. This tool is currently under construction.',
+    keywords: ['loan calculator', 'finance tool', 'mortgage calculator', 'amortization'], 
+    icon: Calculator, 
+    category: 'Calculators', 
+    component: LoanCalculatorTool 
+  },
+  { 
+    slug: 'percentage-calculator', 
+    name: 'Percentage Calculator', 
+    description: 'Calculate various percentage problems easily.', 
+    longDescription: 'Perform various percentage calculations, such as finding X% of Y, determining what percentage X is of Y, or calculating percentage change.',
+    keywords: ['percentage calculator', 'math tool', 'percent', 'discount calculator'], 
+    icon: Percent, 
+    category: 'Calculators', 
+    component: PercentageCalculatorTool 
+  },
+  { 
+    slug: 'base64-encoder', 
+    name: 'Base64 Encoder', 
+    description: 'Encode your text or data into Base64 format.', 
+    longDescription: 'Convert plain text or other data into its Base64 encoded string representation. This tool is currently under construction.',
+    keywords: ['base64 encode', 'data encoding', 'string encoding', 'developer tool'], 
+    icon: Parentheses, 
+    category: 'Developer Tools', 
+    component: Base64EncoderTool 
+  },
+  { 
+    slug: 'base64-decoder', 
+    name: 'Base64 Decoder', 
+    description: 'Decode Base64 encoded strings back to their original form.', 
+    longDescription: 'Convert Base64 encoded strings back into their original human-readable format. This tool is currently under construction.',
+    keywords: ['base64 decode', 'data decoding', 'string decoding', 'developer tool'], 
+    icon: Parentheses, 
+    category: 'Developer Tools', 
+    component: Base64DecoderTool 
+  },
+  { 
+    slug: 'json-formatter', 
+    name: 'JSON Formatter', 
+    description: 'Format and validate JSON data for readability or minify it.', 
+    longDescription: 'Beautify (pretty-print) your JSON data to make it human-readable or minify it to reduce size. Also validates JSON structure.',
+    keywords: ['json formatter', 'json validator', 'json beautifier', 'json minifier', 'developer tool'], 
+    icon: FileJson, 
+    category: 'Developer Tools', 
+    component: JsonFormatterTool 
+  },
+  { 
+    slug: 'xml-formatter', 
+    name: 'XML Formatter', 
+    description: 'Format and validate XML data for improved readability.', 
+    longDescription: 'Beautify (pretty-print) your XML data to make it easier to read and understand. This tool is currently under construction.',
+    keywords: ['xml formatter', 'xml validator', 'xml beautifier', 'developer tool'], 
+    icon: FileJson, // Consider a more specific XML icon if available or custom SVG
+    category: 'Developer Tools', 
+    component: XmlFormatterTool 
+  },
+  { 
+    slug: 'html-minifier', 
+    name: 'HTML Minifier', 
+    description: 'Minify HTML code to reduce file size and improve load times.', 
+    longDescription: 'Remove unnecessary characters from HTML code, like whitespace and comments, to reduce file size. This tool is currently under construction.',
+    keywords: ['html minifier', 'code optimization', 'web performance', 'developer tool'], 
+    icon: Minimize, 
+    category: 'Developer Tools', 
+    component: HtmlMinifierTool 
+  },
+  { 
+    slug: 'css-minifier', 
+    name: 'CSS Minifier', 
+    description: 'Minify CSS code to reduce file size for faster website loading.', 
+    longDescription: 'Compress CSS code by removing unnecessary characters, such as whitespace and comments, to optimize file size. This tool is currently under construction.',
+    keywords: ['css minifier', 'code optimization', 'stylesheet optimization', 'developer tool'], 
+    icon: Minimize, 
+    category: 'Developer Tools', 
+    component: CssMinifierTool 
+  },
+  { 
+    slug: 'javascript-minifier', 
+    name: 'JavaScript Minifier', 
+    description: 'Minify JavaScript code for smaller file sizes and faster execution.', 
+    longDescription: 'Reduce the size of JavaScript files by removing whitespace, comments, and shortening variable names (optional). This tool is currently under construction.',
+    keywords: ['js minifier', 'javascript optimization', 'code compression', 'developer tool'], 
+    icon: Minimize, 
+    category: 'Developer Tools', 
+    component: JavaScriptMinifierTool 
+  },
+  { 
+    slug: 'image-to-base64', 
+    name: 'Image to Base64', 
+    description: 'Convert images (JPEG, PNG, etc.) into Base64 encoded strings.', 
+    longDescription: 'Encode image files into Base64 strings, useful for embedding images directly in HTML or CSS. This tool is currently under construction.',
+    keywords: ['image to base64', 'image encoding', 'data uri', 'web development'], 
+    icon: ImageIcon, 
+    category: 'Converters', 
+    component: ImageToBase64Tool 
+  },
+  { 
+    slug: 'base64-to-image', 
+    name: 'Base64 to Image', 
+    description: 'Convert Base64 encoded strings back into viewable images.', 
+    longDescription: 'Decode Base64 strings to render them as images in your browser. This tool is currently under construction.',
+    keywords: ['base64 to image', 'image decoding', 'data uri', 'web development'], 
+    icon: ImageIcon, 
+    category: 'Converters', 
+    component: Base64ToImageTool 
+  },
+  { 
+    slug: 'time-converter', 
+    name: 'Time Converter', 
+    description: 'Convert between different units of time (seconds, minutes, hours, etc.).', 
+    longDescription: 'Easily convert time values between various units, such as seconds, minutes, hours, days, and weeks. This tool is currently under construction.',
+    keywords: ['time converter', 'unit conversion', 'time calculation', 'duration converter'], 
+    icon: Clock, 
+    category: 'Converters', 
+    component: TimeConverterTool 
+  },
+  { 
+    slug: 'epoch-to-human-date-converter', 
+    name: 'Epoch to Human Date Converter', 
+    description: 'Convert Epoch timestamps (Unix time) to human-readable dates.', 
+    longDescription: 'Translate Unix epoch timestamps into easily understandable date and time formats. This tool is currently under construction.',
+    keywords: ['epoch converter', 'timestamp tool', 'unix time', 'date conversion'], 
+    icon: CalendarDays, 
+    category: 'Converters', 
+    component: EpochToHumanDateConverterTool 
+  },
+  { 
+    slug: 'text-repeater', 
+    name: 'Text Repeater', 
+    description: 'Repeat a piece of text a specified number of times.', 
+    longDescription: 'Generate repeated text quickly. Enter your text and the number of repetitions desired. This tool is currently under construction.',
+    keywords: ['text repeater', 'string tool', 'repeat text', 'content generation'], 
+    icon: Repeat, 
+    category: 'Text Utilities', 
+    component: TextRepeaterTool 
+  },
+  { 
+    slug: 'remove-duplicate-lines', 
+    name: 'Remove Duplicate Lines', 
+    description: 'Remove duplicate lines from a block of text.', 
+    longDescription: 'Clean up your text by removing any lines that are exact duplicates, keeping only unique lines. This tool is currently under construction.',
+    keywords: ['duplicate lines remover', 'text cleanup', 'unique lines', 'data processing'], 
+    icon: RemoveFormatting, 
+    category: 'Text Utilities', 
+    component: RemoveDuplicateLinesTool 
+  },
+  { 
+    slug: 'text-sorting-tool', 
+    name: 'Text Sorting Tool', 
+    description: 'Sort lines of text alphabetically (A-Z or Z-A).', 
+    longDescription: 'Organize lines of text by sorting them in ascending (A-Z) or descending (Z-A) alphabetical order. This tool is currently under construction.',
+    keywords: ['text sorter', 'alphabetical sort', 'line sorting', 'data organization'], 
+    icon: SortAsc, 
+    category: 'Text Utilities', 
+    component: TextSortingTool 
+  },
+  { 
+    slug: 'online-notepad', 
+    name: 'Online Notepad', 
+    description: 'A simple online notepad for quick notes and temporary text storage.', 
+    longDescription: 'Jot down quick notes, ideas, or temporary text with this simple browser-based notepad. This tool is currently under construction.',
+    keywords: ['notepad online', 'text editor', 'quick notes', 'scratchpad'], 
+    icon: Notebook, 
+    category: 'Productivity', 
+    component: OnlineNotepadTool 
+  },
+  { 
+    slug: 'palindrome-checker', 
+    name: 'Palindrome Checker', 
+    description: 'Check if a word, phrase, or number is a palindrome.', 
+    longDescription: 'Determine if the entered text or number reads the same forwards and backward (is a palindrome). This tool is currently under construction.',
+    keywords: ['palindrome checker', 'string tool', 'word game', 'reverse text'], 
+    icon: SpellCheck, 
+    category: 'Text Utilities', 
+    component: PalindromeCheckerTool 
+  },
+  { 
+    slug: 'number-to-words-converter', 
+    name: 'Number to Words Converter', 
+    description: 'Convert numbers into their word representation (e.g., 123 to "one hundred twenty-three").', 
+    longDescription: 'Translate numerical figures into written words, useful for checks, legal documents, or readability. This tool is currently under construction.',
+    keywords: ['number to words', 'text conversion', 'spell number', 'numeric to text'], 
+    icon: Type, 
+    category: 'Converters', 
+    component: NumberToWordsConverterTool 
+  },
+  { 
+    slug: 'words-to-number-converter', 
+    name: 'Words to Number Converter', 
+    description: 'Convert number words (e.g., "one hundred twenty-three") to digits (123).', 
+    longDescription: 'Translate written number words back into their numerical digit form. This tool is currently under construction.',
+    keywords: ['words to number', 'text conversion', 'text to numeric', 'data entry'], 
+    icon: Calculator, 
+    category: 'Converters', 
+    component: WordsToNumberConverterTool 
+  },
+  { 
+    slug: 'text-encryptor-decryptor', 
+    name: 'Text Encryptor/Decryptor', 
+    description: 'Encrypt and decrypt text using common algorithms (e.g., AES - placeholder).', 
+    longDescription: 'Secure your text by encrypting it, and decrypt it back when needed. (Note: Actual strong encryption is complex for client-side). This tool is currently under construction.',
+    keywords: ['text encryption', 'text decryption', 'security', 'cipher', 'privacy tool'], 
+    icon: Lock, 
+    category: 'Security', 
+    component: TextEncryptorDecryptorTool 
+  },
+  { 
+    slug: 'binary-to-decimal-converter', 
+    name: 'Binary to Decimal Converter', 
+    description: 'Convert binary numbers (base-2) to decimal numbers (base-10).', 
+    longDescription: 'Translate binary numbers into their decimal equivalents. This tool is currently under construction.',
+    keywords: ['binary to decimal', 'number system', 'base conversion', 'computer science'], 
+    icon: Binary, 
+    category: 'Converters', 
+    component: BinaryToDecimalConverterTool 
+  },
+  { 
+    slug: 'decimal-to-binary-converter', 
+    name: 'Decimal to Binary Converter', 
+    description: 'Convert decimal numbers (base-10) to binary numbers (base-2).', 
+    longDescription: 'Translate decimal numbers into their binary equivalents. This tool is currently under construction.',
+    keywords: ['decimal to binary', 'number system', 'base conversion', 'computer science'], 
+    icon: Binary, 
+    category: 'Converters', 
+    component: DecimalToBinaryConverterTool 
+  },
+  { 
+    slug: 'ip-address-checker', 
+    name: 'IP Address Checker', 
+    description: 'Check your public IP address and get related information.', 
+    longDescription: 'Find out your current public IP address and potentially other network-related details. This tool is currently under construction.',
+    keywords: ['ip address', 'network tool', 'my ip', 'geolocation (placeholder)'], 
+    icon: Globe, 
+    category: 'Network Tools', 
+    component: IpAddressCheckerTool 
+  },
+  { 
+    slug: 'domain-age-checker', 
+    name: 'Domain Age Checker', 
+    description: 'Check the age of a domain name (requires external API - placeholder).', 
+    longDescription: 'Discover how old a domain name is by checking its registration date. (Note: Requires external service integration). This tool is currently under construction.',
+    keywords: ['domain age', 'seo tool', 'whois lookup (placeholder)', 'website analysis'], 
+    icon: Globe, 
+    category: 'SEO Tools', 
+    component: DomainAgeCheckerTool 
+  },
+  { 
+    slug: 'meta-tag-generator', 
+    name: 'Meta Tag Generator', 
+    description: 'Generate HTML meta tags for SEO and social sharing.', 
+    longDescription: 'Create essential HTML meta tags (title, description, keywords, Open Graph, Twitter Cards) for your web pages. This tool is currently under construction.',
+    keywords: ['meta tag generator', 'seo tool', 'html meta tags', 'open graph', 'twitter cards'], 
+    icon: Tag, 
+    category: 'SEO Tools', 
+    component: MetaTagGeneratorTool 
+  },
+  { 
+    slug: 'utm-link-generator', 
+    name: 'UTM Link Generator', 
+    description: 'Generate UTM tracking links for your marketing campaigns.', 
+    longDescription: 'Easily create URLs with UTM parameters to track the effectiveness of your online marketing campaigns. This tool is currently under construction.',
+    keywords: ['utm generator', 'marketing tool', 'campaign tracking', 'url builder'], 
+    icon: Link2, 
+    category: 'Marketing Tools', 
+    component: UtmLinkGeneratorTool 
+  },
+  { 
+    slug: 'email-validator', 
+    name: 'Email Validator', 
+    description: 'Validate the format of email addresses (syntax check).', 
+    longDescription: 'Check if an email address is syntactically correct. (Note: Does not verify actual existence). This tool is currently under construction.',
+    keywords: ['email validator', 'data validation', 'email format', 'syntax check'], 
+    icon: MailCheck, 
+    category: 'Validation Tools', 
+    component: EmailValidatorTool 
+  },
+  { 
+    slug: 'credit-card-validator', 
+    name: 'Credit Card Validator', 
+    description: 'Validate credit card numbers using the Luhn algorithm (for format checking only).', 
+    longDescription: 'Check if a credit card number is potentially valid based on the Luhn algorithm. Does not verify authenticity or funds. This tool is currently under construction.',
+    keywords: ['credit card validator', 'luhn algorithm', 'format validation', 'security (test tool)'], 
+    icon: CreditCard, 
+    category: 'Validation Tools', 
+    component: CreditCardValidatorTool 
+  },
+  { 
+    slug: 'md5-hash-generator', 
+    name: 'MD5 Hash Generator', 
+    description: 'Generate MD5 hash for any given text or string.', 
+    longDescription: 'Create an MD5 hash from your input text. MD5 is a widely used cryptographic hash function. This tool is currently under construction.',
+    keywords: ['md5 generator', 'hashing tool', 'cryptography (basic)', 'checksum'], 
+    icon: Hash, 
+    category: 'Security', 
+    component: Md5HashGeneratorTool 
+  },
+  { 
+    slug: 'sha256-hash-generator', 
+    name: 'SHA256 Hash Generator', 
+    description: 'Generate SHA256 hash for your text or data.', 
+    longDescription: 'Produce a SHA256 hash from your input text. SHA256 is a secure hashing algorithm. This tool is currently under construction.',
+    keywords: ['sha256 generator', 'hashing tool', 'cryptography', 'secure hash'], 
+    icon: Hash, 
+    category: 'Security', 
+    component: Sha256HashGeneratorTool 
+  },
+  { 
+    slug: 'unit-converter', 
+    name: 'Unit Converter', 
+    description: 'Convert various units (length, weight, volume, etc. - placeholder).', 
+    longDescription: 'A comprehensive tool to convert between different units of measurement like length, weight, volume, and more. This tool is currently under construction.',
+    keywords: ['unit converter', 'measurement tool', 'conversion calculator', 'metric imperial'], 
+    icon: Scale, 
+    category: 'Converters', 
+    component: UnitConverterTool 
+  },
+  { 
+    slug: 'temperature-converter', 
+    name: 'Temperature Converter', 
+    description: 'Convert temperatures between Celsius, Fahrenheit, and Kelvin.', 
+    longDescription: 'Easily switch temperature values between Celsius (°C), Fahrenheit (°F), and Kelvin (K). This tool is currently under construction.',
+    keywords: ['temperature converter', 'conversion tool', 'celsius', 'fahrenheit', 'kelvin'], 
+    icon: Thermometer, 
+    category: 'Converters', 
+    component: TemperatureConverterTool 
+  },
+  { 
+    slug: 'stopwatch', 
+    name: 'Stopwatch', 
+    description: 'An online stopwatch to measure elapsed time with lap functionality.', 
+    longDescription: 'A simple and accurate online stopwatch to time events, with options for laps and splits. This tool is currently under construction.',
+    keywords: ['stopwatch', 'timer online', 'lap timer', 'time measurement'], 
+    icon: Timer, 
+    category: 'Productivity', 
+    component: StopwatchTool 
+  },
+  { 
+    slug: 'countdown-timer', 
+    name: 'Countdown Timer', 
+    description: 'Set an online countdown timer for various purposes.', 
+    longDescription: 'A versatile online countdown timer. Set a specific duration and get alerted when the time is up. This tool is currently under construction.',
+    keywords: ['countdown timer', 'timer online', 'alarm', 'time management'], 
+    icon: Timer, 
+    category: 'Productivity', 
+    component: CountdownTimerTool 
+  },
+  { 
+    slug: 'text-diff-checker', 
+    name: 'Text Diff Checker', 
+    description: 'Compare two blocks of text and highlight the differences.', 
+    longDescription: 'Easily find the differences between two pieces of text. Ideal for comparing documents or code snippets. This tool is currently under construction.',
+    keywords: ['text diff', 'compare text', 'difference checker', 'file comparison'], 
+    icon: Shuffle, // Consider 'GitCompare' or similar if available
+    category: 'Text Utilities', 
+    component: TextDiffCheckerTool 
+  },
+  { 
+    slug: 'image-compressor', 
+    name: 'Image Compressor', 
+    description: 'Compress JPEG, PNG, and WEBP images client-side to reduce file size.', 
+    longDescription: 'Reduce the file size of your images without significant quality loss. Supports JPEG, PNG, and WEBP formats with adjustable compression levels. All processing is done in your browser.',
+    keywords: ['image compressor', 'optimize images', 'reduce image size', 'jpeg compression', 'png compression', 'webp compression'], 
+    icon: ImageIcon, 
+    category: 'Media Tools', 
+    component: ImageCompressorTool 
+  },
 ];
 
 
@@ -322,4 +677,3 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
 };
 
 export const allTools = toolsList;
-
