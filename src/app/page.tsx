@@ -2,6 +2,7 @@
 import { getToolsByCategory } from '@/lib/tools';
 import ToolCard from '@/components/ToolCard';
 import type { Metadata } from 'next';
+import SearchBar from '@/components/SearchBar'; 
 
 export const metadata: Metadata = {
   title: 'Toolbox Online - Your Ultimate Collection of Online Tools',
@@ -11,8 +12,21 @@ export const metadata: Metadata = {
 export default function HomePage() {
   const toolsByCat = getToolsByCategory();
 
-  // Get category names and sort them alphabetically
-  const sortedCategories = Object.keys(toolsByCat).sort((a, b) => a.localeCompare(b));
+  // Custom sorting for categories
+  const categoryOrderFirst = ["Converters"];
+  const categoryOrderLast = ["AI Tools"];
+  
+  const allCategoryNames = Object.keys(toolsByCat);
+
+  const firstCategories = categoryOrderFirst.filter(cat => allCategoryNames.includes(cat));
+  
+  const lastCategories = categoryOrderLast.filter(cat => allCategoryNames.includes(cat));
+  
+  const middleCategories = allCategoryNames
+    .filter(cat => !firstCategories.includes(cat) && !lastCategories.includes(cat))
+    .sort((a, b) => a.localeCompare(b));
+
+  const sortedCategories = [...firstCategories, ...middleCategories, ...lastCategories];
 
   return (
     <div className="space-y-12">
@@ -24,6 +38,7 @@ export default function HomePage() {
           Your one-stop destination for a comprehensive suite of free online tools.
           Boost your productivity with our versatile collection.
         </p>
+        <SearchBar />
       </section>
 
       {sortedCategories.map((category) => (
@@ -32,7 +47,7 @@ export default function HomePage() {
             {category}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {toolsByCat[category].map((tool) => (
+            {toolsByCat[category]?.map((tool) => (
               <ToolCard key={tool.slug} tool={tool} />
             ))}
           </div>
@@ -41,4 +56,3 @@ export default function HomePage() {
     </div>
   );
 }
-
