@@ -1,12 +1,4 @@
 
-
-
-
-
-
-
-
-
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -121,18 +113,6 @@ const Sha256HashGeneratorTool = dynamic(() => import('@/components/tools/Sha256H
 
 
 // Placeholder components for complex tools
-const PlaceholderTool = ({ name, specificMessage }: { name: string, specificMessage?: string }) => (
-  <div className="p-6 border rounded-lg bg-card shadow-sm text-center">
-    <div className="flex flex-col items-center justify-center">
-      <UploadCloud className="h-16 w-16 text-muted-foreground mb-4" />
-      <h2 className="text-xl font-semibold mb-2 text-foreground">{name}</h2>
-      {specificMessage && <p className="text-muted-foreground mb-3">{specificMessage}</p>}
-      <p className="text-sm text-muted-foreground">This tool is currently under advanced development to ensure reliability and the best user experience. Please check back soon!</p>
-    </div>
-  </div>
-);
-
-
 const YoutubeToMp3Tool = dynamic(() => import('@/components/tools/YoutubeToMp3Tool').then(mod => mod.YoutubeToMp3Tool));
 const YoutubeToMp4Tool = dynamic(() => import('@/components/tools/YoutubeToMp4Tool').then(mod => mod.YoutubeToMp4Tool));
 
@@ -147,7 +127,7 @@ const EmailValidatorTool = dynamic(() => import('@/components/tools/EmailValidat
 const CreditCardValidatorTool = dynamic(() => import('@/components/tools/CreditCardValidatorTool').then(mod => mod.CreditCardValidatorTool));
 
 
-export const toolsList: Tool[] = [
+export const allTools: Tool[] = [
   {
     slug: 'seo-optimizer',
     name: 'SEO Optimizer (AI)',
@@ -692,11 +672,11 @@ export const toolsList: Tool[] = [
 
 
 export const getToolBySlug = (slug: string): Tool | undefined => {
-  return toolsList.find(tool => tool.slug === slug);
+  return allTools.find(tool => tool.slug === slug);
 };
 
 export const getToolsByCategory = (): Record<string, Tool[]> => {
-  return toolsList.reduce((acc, tool) => {
+  return allTools.reduce((acc, tool) => {
     if (!acc[tool.category]) {
       acc[tool.category] = [];
     }
@@ -706,12 +686,3 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
     return acc;
   }, {} as Record<string, Tool[]>);
 };
-
-export const allTools = toolsList;
-
-
-
-
-
-
-
