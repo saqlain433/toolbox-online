@@ -1,6 +1,7 @@
 
 
 
+
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -43,6 +44,9 @@ import {
   CalendarDays,
   Parentheses,
   UploadCloud,
+  Ruler, // Added for UnitConverterTool
+  Beaker, // Added for UnitConverterTool
+  ArrowRightLeft, // For Binary/Decimal tools, if needed as distinct from Wand2
 } from 'lucide-react';
 
 // Dynamically import tool components to enable code splitting
@@ -74,6 +78,18 @@ const TextSortingTool = dynamic(() => import('@/components/tools/TextSortingTool
 const PalindromeCheckerTool = dynamic(() => import('@/components/tools/PalindromeCheckerTool').then(mod => mod.PalindromeCheckerTool));
 const TextDiffCheckerTool = dynamic(() => import('@/components/tools/TextDiffCheckerTool').then(mod => mod.TextDiffCheckerTool));
 
+// Converters implementations
+const ImageToBase64Tool = dynamic(() => import('@/components/tools/ImageToBase64Tool').then(mod => mod.ImageToBase64Tool));
+const Base64ToImageTool = dynamic(() => import('@/components/tools/Base64ToImageTool').then(mod => mod.Base64ToImageTool));
+const TimeConverterTool = dynamic(() => import('@/components/tools/TimeConverterTool').then(mod => mod.TimeConverterTool));
+const EpochToHumanDateConverterTool = dynamic(() => import('@/components/tools/EpochToHumanDateConverterTool').then(mod => mod.EpochToHumanDateConverterTool));
+const NumberToWordsConverterTool = dynamic(() => import('@/components/tools/NumberToWordsConverterTool').then(mod => mod.NumberToWordsConverterTool));
+const WordsToNumberConverterTool = dynamic(() => import('@/components/tools/WordsToNumberConverterTool').then(mod => mod.WordsToNumberConverterTool));
+const BinaryToDecimalConverterTool = dynamic(() => import('@/components/tools/BinaryToDecimalConverterTool').then(mod => mod.BinaryToDecimalConverterTool));
+const DecimalToBinaryConverterTool = dynamic(() => import('@/components/tools/DecimalToBinaryConverterTool').then(mod => mod.DecimalToBinaryConverterTool));
+const UnitConverterTool = dynamic(() => import('@/components/tools/UnitConverterTool').then(mod => mod.UnitConverterTool));
+const TemperatureConverterTool = dynamic(() => import('@/components/tools/TemperatureConverterTool').then(mod => mod.TemperatureConverterTool));
+
 
 // Placeholder components for complex tools
 const PlaceholderTool = ({ name }: { name: string }) => (
@@ -95,16 +111,8 @@ const XmlFormatterTool = () => <PlaceholderTool name="XML Formatter" />;
 const HtmlMinifierTool = () => <PlaceholderTool name="HTML Minifier" />;
 const CssMinifierTool = () => <PlaceholderTool name="CSS Minifier" />;
 const JavaScriptMinifierTool = () => <PlaceholderTool name="JavaScript Minifier" />;
-const ImageToBase64Tool = () => <PlaceholderTool name="Image to Base64" />;
-const Base64ToImageTool = () => <PlaceholderTool name="Base64 to Image" />;
-const TimeConverterTool = () => <PlaceholderTool name="Time Converter" />;
-const EpochToHumanDateConverterTool = () => <PlaceholderTool name="Epoch to Human Date Converter" />;
 const OnlineNotepadTool = () => <PlaceholderTool name="Online Notepad" />;
-const NumberToWordsConverterTool = () => <PlaceholderTool name="Number to Words Converter" />;
-const WordsToNumberConverterTool = () => <PlaceholderTool name="Words to Number Converter" />;
 const TextEncryptorDecryptorTool = () => <PlaceholderTool name="Text Encryptor/Decryptor" />;
-const BinaryToDecimalConverterTool = () => <PlaceholderTool name="Binary to Decimal Converter" />;
-const DecimalToBinaryConverterTool = () => <PlaceholderTool name="Decimal to Binary Converter" />;
 const IpAddressCheckerTool = () => <PlaceholderTool name="IP Address Checker" />;
 const DomainAgeCheckerTool = () => <PlaceholderTool name="Domain Age Checker" />;
 const MetaTagGeneratorTool = () => <PlaceholderTool name="Meta Tag Generator" />;
@@ -113,8 +121,6 @@ const EmailValidatorTool = () => <PlaceholderTool name="Email Validator" />;
 const CreditCardValidatorTool = () => <PlaceholderTool name="Credit Card Validator" />;
 const Md5HashGeneratorTool = () => <PlaceholderTool name="MD5 Hash Generator" />;
 const Sha256HashGeneratorTool = () => <PlaceholderTool name="SHA256 Hash Generator" />;
-const UnitConverterTool = () => <PlaceholderTool name="Unit Converter" />;
-const TemperatureConverterTool = () => <PlaceholderTool name="Temperature Converter" />;
 const StopwatchTool = () => <PlaceholderTool name="Stopwatch" />;
 const CountdownTimerTool = () => <PlaceholderTool name="Countdown Timer" />;
 
@@ -194,7 +200,7 @@ export const toolsList: Tool[] = [
     slug: 'youtube-to-mp3-converter',
     name: 'YouTube to MP3 Converter',
     description: 'Convert YouTube videos to MP3 audio files.',
-    longDescription: 'Extract audio from YouTube videos and save them as MP3 files. This tool is currently under construction.',
+    longDescription: 'Extract audio from YouTube videos and save them as MP3 files. This tool is currently under construction as it requires server-side processing.',
     keywords: ['youtube', 'mp3', 'converter', 'audio extractor', 'download music'],
     icon: Youtube,
     category: 'Converters',
@@ -204,7 +210,7 @@ export const toolsList: Tool[] = [
     slug: 'youtube-to-mp4-converter',
     name: 'YouTube to MP4 Converter',
     description: 'Download YouTube videos as MP4 files.',
-    longDescription: 'Download YouTube videos in MP4 format for offline viewing. This tool is currently under construction.',
+    longDescription: 'Download YouTube videos in MP4 format for offline viewing. This tool is currently under construction as it requires server-side processing.',
     keywords: ['youtube', 'mp4', 'video downloader', 'converter', 'offline video'],
     icon: Youtube,
     category: 'Converters',
@@ -286,7 +292,7 @@ export const toolsList: Tool[] = [
     description: 'Calculate your Body Mass Index (BMI) using metric or imperial units.', 
     longDescription: 'Determine your Body Mass Index by entering your height and weight. Supports both metric (cm, kg) and imperial (ft, in, lbs) units.',
     keywords: ['bmi calculator', 'health tool', 'body mass index', 'weight management'], 
-    icon: Calculator, 
+    icon: Calculator, // Consider a specific health icon if available
     category: 'Calculators', 
     component: BmiCalculatorTool 
   },
@@ -346,7 +352,7 @@ export const toolsList: Tool[] = [
     description: 'Format and validate XML data for improved readability.', 
     longDescription: 'Beautify (pretty-print) your XML data to make it easier to read and understand. This tool is currently under construction.',
     keywords: ['xml formatter', 'xml validator', 'xml beautifier', 'developer tool'], 
-    icon: FileJson, // Consider a more specific XML icon if available or custom SVG
+    icon: FileJson, 
     category: 'Developer Tools', 
     component: XmlFormatterTool 
   },
@@ -384,7 +390,7 @@ export const toolsList: Tool[] = [
     slug: 'image-to-base64', 
     name: 'Image to Base64', 
     description: 'Convert images (JPEG, PNG, etc.) into Base64 encoded strings.', 
-    longDescription: 'Encode image files into Base64 strings, useful for embedding images directly in HTML or CSS. This tool is currently under construction.',
+    longDescription: 'Encode image files into Base64 strings, useful for embedding images directly in HTML or CSS. Generates a full Data URI.',
     keywords: ['image to base64', 'image encoding', 'data uri', 'web development'], 
     icon: ImageIcon, 
     category: 'Converters', 
@@ -393,8 +399,8 @@ export const toolsList: Tool[] = [
   { 
     slug: 'base64-to-image', 
     name: 'Base64 to Image', 
-    description: 'Convert Base64 encoded strings back into viewable images.', 
-    longDescription: 'Decode Base64 strings to render them as images in your browser. This tool is currently under construction.',
+    description: 'Convert Base64 encoded strings (Data URI) back into viewable images.', 
+    longDescription: 'Decode Base64 Data URI strings to render them as images in your browser. Supports common image types.',
     keywords: ['base64 to image', 'image decoding', 'data uri', 'web development'], 
     icon: ImageIcon, 
     category: 'Converters', 
@@ -404,7 +410,7 @@ export const toolsList: Tool[] = [
     slug: 'time-converter', 
     name: 'Time Converter', 
     description: 'Convert between different units of time (seconds, minutes, hours, etc.).', 
-    longDescription: 'Easily convert time values between various units, such as seconds, minutes, hours, days, and weeks. This tool is currently under construction.',
+    longDescription: 'Easily convert time values between various units, such as seconds, minutes, hours, days, weeks, months, and years.',
     keywords: ['time converter', 'unit conversion', 'time calculation', 'duration converter'], 
     icon: Clock, 
     category: 'Converters', 
@@ -414,7 +420,7 @@ export const toolsList: Tool[] = [
     slug: 'epoch-to-human-date-converter', 
     name: 'Epoch to Human Date Converter', 
     description: 'Convert Epoch timestamps (Unix time) to human-readable dates.', 
-    longDescription: 'Translate Unix epoch timestamps into easily understandable date and time formats. This tool is currently under construction.',
+    longDescription: 'Translate Unix epoch timestamps (in seconds or milliseconds) into easily understandable date and time formats, showing both UTC and local time.',
     keywords: ['epoch converter', 'timestamp tool', 'unix time', 'date conversion'], 
     icon: CalendarDays, 
     category: 'Converters', 
@@ -474,7 +480,7 @@ export const toolsList: Tool[] = [
     slug: 'number-to-words-converter', 
     name: 'Number to Words Converter', 
     description: 'Convert numbers into their word representation (e.g., 123 to "one hundred twenty-three").', 
-    longDescription: 'Translate numerical figures into written words, useful for checks, legal documents, or readability. This tool is currently under construction.',
+    longDescription: 'Translate numerical figures into written words, useful for checks, legal documents, or readability. Supports integers.',
     keywords: ['number to words', 'text conversion', 'spell number', 'numeric to text'], 
     icon: Type, 
     category: 'Converters', 
@@ -484,7 +490,7 @@ export const toolsList: Tool[] = [
     slug: 'words-to-number-converter', 
     name: 'Words to Number Converter', 
     description: 'Convert number words (e.g., "one hundred twenty-three") to digits (123).', 
-    longDescription: 'Translate written number words back into their numerical digit form. This tool is currently under construction.',
+    longDescription: 'Translate written number words back into their numerical digit form. Supports basic English number phrasing.',
     keywords: ['words to number', 'text conversion', 'text to numeric', 'data entry'], 
     icon: Calculator, 
     category: 'Converters', 
@@ -504,7 +510,7 @@ export const toolsList: Tool[] = [
     slug: 'binary-to-decimal-converter', 
     name: 'Binary to Decimal Converter', 
     description: 'Convert binary numbers (base-2) to decimal numbers (base-10).', 
-    longDescription: 'Translate binary numbers into their decimal equivalents. This tool is currently under construction.',
+    longDescription: 'Translate binary numbers into their decimal equivalents.',
     keywords: ['binary to decimal', 'number system', 'base conversion', 'computer science'], 
     icon: Binary, 
     category: 'Converters', 
@@ -514,9 +520,9 @@ export const toolsList: Tool[] = [
     slug: 'decimal-to-binary-converter', 
     name: 'Decimal to Binary Converter', 
     description: 'Convert decimal numbers (base-10) to binary numbers (base-2).', 
-    longDescription: 'Translate decimal numbers into their binary equivalents. This tool is currently under construction.',
+    longDescription: 'Translate non-negative decimal numbers into their binary equivalents.',
     keywords: ['decimal to binary', 'number system', 'base conversion', 'computer science'], 
-    icon: Binary, 
+    icon: Hash, 
     category: 'Converters', 
     component: DecimalToBinaryConverterTool 
   },
@@ -603,10 +609,10 @@ export const toolsList: Tool[] = [
   { 
     slug: 'unit-converter', 
     name: 'Unit Converter', 
-    description: 'Convert various units (length, weight, volume, etc. - placeholder).', 
-    longDescription: 'A comprehensive tool to convert between different units of measurement like length, weight, volume, and more. This tool is currently under construction.',
-    keywords: ['unit converter', 'measurement tool', 'conversion calculator', 'metric imperial'], 
-    icon: Scale, 
+    description: 'Convert various units (length, weight, volume).', 
+    longDescription: 'A comprehensive tool to convert between different units of measurement for length, weight, and volume.',
+    keywords: ['unit converter', 'measurement tool', 'conversion calculator', 'metric imperial', 'length', 'weight', 'volume'], 
+    icon: Scale, // Using Scale as a general icon, specific ones like Ruler/Beaker used in component.
     category: 'Converters', 
     component: UnitConverterTool 
   },
@@ -614,7 +620,7 @@ export const toolsList: Tool[] = [
     slug: 'temperature-converter', 
     name: 'Temperature Converter', 
     description: 'Convert temperatures between Celsius, Fahrenheit, and Kelvin.', 
-    longDescription: 'Easily switch temperature values between Celsius (°C), Fahrenheit (°F), and Kelvin (K). This tool is currently under construction.',
+    longDescription: 'Easily switch temperature values between Celsius (°C), Fahrenheit (°F), and Kelvin (K).',
     keywords: ['temperature converter', 'conversion tool', 'celsius', 'fahrenheit', 'kelvin'], 
     icon: Thermometer, 
     category: 'Converters', 
@@ -678,4 +684,5 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
 };
 
 export const allTools = toolsList;
+
 
