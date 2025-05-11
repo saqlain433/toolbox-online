@@ -1,3 +1,4 @@
+
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -52,24 +53,27 @@ const RgbToHexTool = dynamic(() => import('@/components/tools/RgbToHexTool').the
 const YoutubeThumbnailDownloaderTool = dynamic(() => import('@/components/tools/YoutubeThumbnailDownloaderTool').then(mod => mod.YoutubeThumbnailDownloaderTool));
 const TextToSpeechTool = dynamic(() => import('@/components/tools/TextToSpeechTool').then(mod => mod.TextToSpeechTool));
 
+// Newly implemented tools
+const CharacterCounterTool = dynamic(() => import('@/components/tools/CharacterCounterTool').then(mod => mod.CharacterCounterTool));
+const CaseConverterTool = dynamic(() => import('@/components/tools/CaseConverterTool').then(mod => mod.CaseConverterTool));
+const LoremIpsumGeneratorTool = dynamic(() => import('@/components/tools/LoremIpsumGeneratorTool').then(mod => mod.LoremIpsumGeneratorTool));
+const RandomPasswordGeneratorTool = dynamic(() => import('@/components/tools/RandomPasswordGeneratorTool').then(mod => mod.RandomPasswordGeneratorTool));
+const HexToRgbTool = dynamic(() => import('@/components/tools/HexToRgbTool').then(mod => mod.HexToRgbTool));
+const AgeCalculatorTool = dynamic(() => import('@/components/tools/AgeCalculatorTool').then(mod => mod.AgeCalculatorTool));
+
+
 // Placeholder components for complex tools
 const PlaceholderTool = ({ name }: { name: string }) => (
   <div className="p-4 border rounded-lg bg-card">
     <h2 className="text-xl font-semibold mb-2">{name}</h2>
     <p className="text-muted-foreground">This tool is under construction. Check back soon!</p>
-     <p className="text-sm mt-2 text-destructive">Note: Full client-side implementation of tools like YouTube converters is highly complex and may have limitations.</p>
+     <p className="text-sm mt-2 text-destructive">Note: Full client-side implementation of some tools is highly complex and may have limitations.</p>
   </div>
 );
 
 const YoutubeToMp3Tool = () => <PlaceholderTool name="YouTube to MP3 Converter" />;
 const YoutubeToMp4Tool = () => <PlaceholderTool name="YouTube to MP4 Converter" />;
-const CharacterCounterTool = () => <PlaceholderTool name="Character Counter" />;
-const CaseConverterTool = () => <PlaceholderTool name="Case Converter" />;
-const LoremIpsumGeneratorTool = () => <PlaceholderTool name="Lorem Ipsum Generator" />;
-const RandomPasswordGeneratorTool = () => <PlaceholderTool name="Random Password Generator" />;
-const HexToRgbTool = () => <PlaceholderTool name="HEX to RGB Converter" />;
 const SpeechToTextTool = () => <PlaceholderTool name="Speech to Text" />;
-const AgeCalculatorTool = () => <PlaceholderTool name="Age Calculator" />;
 const BmiCalculatorTool = () => <PlaceholderTool name="BMI Calculator" />;
 const LoanCalculatorTool = () => <PlaceholderTool name="Loan Calculator" />;
 const PercentageCalculatorTool = () => <PlaceholderTool name="Percentage Calculator" />;
@@ -132,6 +136,46 @@ export const toolsList: Tool[] = [
     component: WordCounterTool,
   },
   {
+    slug: 'character-counter', 
+    name: 'Character Counter', 
+    description: 'Count characters in text, with and without spaces.', 
+    longDescription: 'A simple tool to count the total characters in a piece of text, including an option to count characters excluding spaces.',
+    keywords: ['character count', 'text tool', 'letter count', 'string length'], 
+    icon: Type, 
+    category: 'Text Utilities', 
+    component: CharacterCounterTool 
+  },
+  {
+    slug: 'case-converter', 
+    name: 'Case Converter', 
+    description: 'Convert text to UPPERCASE, lowercase, Title Case, or Sentence case.', 
+    longDescription: 'Easily change the capitalization of your text. Supports UPPECASE, lowercase, Title Case (first letter of each word capitalized), and Sentence case (first letter of each sentence capitalized).',
+    keywords: ['case converter', 'text formatting', 'uppercase', 'lowercase', 'title case', 'sentence case'], 
+    icon: Text, 
+    category: 'Text Utilities', 
+    component: CaseConverterTool 
+  },
+  {
+    slug: 'lorem-ipsum-generator', 
+    name: 'Lorem Ipsum Generator', 
+    description: 'Generate placeholder text (Lorem Ipsum) for your designs.', 
+    longDescription: 'Quickly generate Lorem Ipsum placeholder text. Specify the number of paragraphs, sentences, or words you need for your mockups and designs.',
+    keywords: ['lorem ipsum', 'dummy text', 'placeholder text', 'text generator'], 
+    icon: FileText, 
+    category: 'Generators', 
+    component: LoremIpsumGeneratorTool 
+  },
+  {
+    slug: 'random-password-generator', 
+    name: 'Random Password Generator', 
+    description: 'Create strong, secure, and random passwords.', 
+    longDescription: 'Generate highly secure random passwords with customizable length and character types (uppercase, lowercase, numbers, symbols). Enhance your online security.',
+    keywords: ['password generator', 'security', 'random password', 'strong password'], 
+    icon: Lock, 
+    category: 'Generators', 
+    component: RandomPasswordGeneratorTool 
+  },
+  {
     slug: 'qr-code-generator',
     name: 'QR Code Generator',
     description: 'Create custom QR codes for URLs, text, contact info, and more.',
@@ -182,6 +226,16 @@ export const toolsList: Tool[] = [
     component: RgbToHexTool,
   },
   {
+    slug: 'hex-to-rgb-converter', 
+    name: 'HEX to RGB Converter', 
+    description: 'Convert HEX color codes to RGB values.', 
+    longDescription: 'Convert hexadecimal color codes (e.g., #FF0000) to their RGB representation (e.g., rgb(255, 0, 0)). Useful for web development and design tasks.',
+    keywords: ['hex to rgb', 'color converter', 'web design', 'css colors', 'rgb values'], 
+    icon: Pipette, 
+    category: 'Converters', 
+    component: HexToRgbTool 
+  },
+  {
     slug: 'youtube-thumbnail-downloader',
     name: 'YouTube Thumbnail Downloader',
     description: 'Download high-quality thumbnails from YouTube videos.',
@@ -201,14 +255,17 @@ export const toolsList: Tool[] = [
     category: 'Text Utilities',
     component: TextToSpeechTool,
   },
-  // Add more tools here following the pattern, using PlaceholderTool for now
-  { slug: 'character-counter', name: 'Character Counter', description: 'Count characters in text.', keywords: ['character count', 'text tool'], icon: Type, category: 'Text Utilities', component: CharacterCounterTool },
-  { slug: 'case-converter', name: 'Case Converter', description: 'Convert text to UPPERCASE, lowercase, etc.', keywords: ['case converter', 'text formatting'], icon: Text, category: 'Text Utilities', component: CaseConverterTool },
-  { slug: 'lorem-ipsum-generator', name: 'Lorem Ipsum Generator', description: 'Generate placeholder text.', keywords: ['lorem ipsum', 'dummy text'], icon: FileText, category: 'Generators', component: LoremIpsumGeneratorTool },
-  { slug: 'random-password-generator', name: 'Random Password Generator', description: 'Create strong, random passwords.', keywords: ['password generator', 'security'], icon: Lock, category: 'Generators', component: RandomPasswordGeneratorTool },
-  { slug: 'hex-to-rgb-converter', name: 'HEX to RGB Converter', description: 'Convert HEX color codes to RGB.', keywords: ['hex to rgb', 'color converter'], icon: Pipette, category: 'Converters', component: HexToRgbTool },
+  { 
+    slug: 'age-calculator', 
+    name: 'Age Calculator', 
+    description: 'Calculate age based on date of birth and a target date.', 
+    longDescription: 'Determine age in years, months, and days by providing a birth date and an optional target date (defaults to today). Useful for various age-related calculations.',
+    keywords: ['age calculator', 'date calculation', 'birthday calculator', 'chronological age'], 
+    icon: CalendarDays, 
+    category: 'Calculators', 
+    component: AgeCalculatorTool 
+  },
   { slug: 'speech-to-text', name: 'Speech to Text', description: 'Convert spoken words into text.', keywords: ['speech to text', 'voice recognition'], icon: Mic, category: 'Text Utilities', component: SpeechToTextTool },
-  { slug: 'age-calculator', name: 'Age Calculator', description: 'Calculate age from date of birth.', keywords: ['age calculator', 'date calculation'], icon: CalendarDays, category: 'Calculators', component: AgeCalculatorTool },
   { slug: 'bmi-calculator', name: 'BMI Calculator', description: 'Calculate Body Mass Index.', keywords: ['bmi calculator', 'health tool'], icon: Calculator, category: 'Calculators', component: BmiCalculatorTool },
   { slug: 'loan-calculator', name: 'Loan Calculator', description: 'Calculate loan payments.', keywords: ['loan calculator', 'finance tool'], icon: Calculator, category: 'Calculators', component: LoanCalculatorTool },
   { slug: 'percentage-calculator', name: 'Percentage Calculator', description: 'Calculate percentages easily.', keywords: ['percentage calculator', 'math tool'], icon: Percent, category: 'Calculators', component: PercentageCalculatorTool },
@@ -265,3 +322,4 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
 };
 
 export const allTools = toolsList;
+
