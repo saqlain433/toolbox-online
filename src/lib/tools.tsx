@@ -2,6 +2,7 @@
 
 
 
+
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -92,18 +93,21 @@ const TemperatureConverterTool = dynamic(() => import('@/components/tools/Temper
 
 
 // Placeholder components for complex tools
-const PlaceholderTool = ({ name }: { name: string }) => (
-  <div className="p-6 border rounded-lg bg-card shadow-sm">
-    <div className="flex flex-col items-center justify-center text-center h-full">
+const PlaceholderTool = ({ name, specificMessage }: { name: string, specificMessage?: string }) => (
+  <div className="p-6 border rounded-lg bg-card shadow-sm text-center">
+    <div className="flex flex-col items-center justify-center">
       <UploadCloud className="h-16 w-16 text-muted-foreground mb-4" />
       <h2 className="text-xl font-semibold mb-2 text-foreground">{name}</h2>
-      <p className="text-muted-foreground">This tool is under construction. Check back soon!</p>
+      {specificMessage && <p className="text-muted-foreground mb-3">{specificMessage}</p>}
+      <p className="text-sm text-muted-foreground">This tool is currently under advanced development to ensure reliability and the best user experience. Please check back soon!</p>
     </div>
   </div>
 );
 
-const YoutubeToMp3Tool = () => <PlaceholderTool name="YouTube to MP3 Converter" />;
-const YoutubeToMp4Tool = () => <PlaceholderTool name="YouTube to MP4 Converter" />;
+
+const YoutubeToMp3Tool = dynamic(() => import('@/components/tools/YoutubeToMp3Tool').then(mod => mod.YoutubeToMp3Tool));
+const YoutubeToMp4Tool = dynamic(() => import('@/components/tools/YoutubeToMp4Tool').then(mod => mod.YoutubeToMp4Tool));
+
 const LoanCalculatorTool = () => <PlaceholderTool name="Loan Calculator" />;
 const Base64EncoderTool = () => <PlaceholderTool name="Base64 Encoder" />;
 const Base64DecoderTool = () => <PlaceholderTool name="Base64 Decoder" />;
@@ -189,9 +193,9 @@ export const toolsList: Tool[] = [
   {
     slug: 'qr-code-generator',
     name: 'QR Code Generator',
-    description: 'Create custom QR codes for URLs, text, contact info, and more.',
-    longDescription: 'Generate QR codes instantly for various types of data including URLs, text, email addresses, phone numbers, and Wi-Fi credentials. Customize and download your QR codes.',
-    keywords: ['qr code', 'generator', 'barcode', 'link shortener', 'mobile marketing'],
+    description: 'Create custom QR codes with styles, colors, and logo support.',
+    longDescription: 'Generate QR codes instantly for URLs, text, and more. Customize dots, corners, colors, add your logo, and adjust error correction levels for unique and effective QR codes.',
+    keywords: ['qr code', 'generator', 'barcode', 'custom qr', 'logo qr code', 'qr styling'],
     icon: QrCode,
     category: 'Generators',
     component: QrCodeGeneratorTool,
@@ -199,8 +203,8 @@ export const toolsList: Tool[] = [
   {
     slug: 'youtube-to-mp3-converter',
     name: 'YouTube to MP3 Converter',
-    description: 'Convert YouTube videos to MP3 audio files.',
-    longDescription: 'Extract audio from YouTube videos and save them as MP3 files. This tool is currently under construction as it requires server-side processing.',
+    description: 'Convert YouTube videos to MP3 audio files. (Under Review)',
+    longDescription: 'This tool aims to extract audio from YouTube videos and save them as MP3 files. Due to the complexities and policy considerations of interacting with third-party services like YouTube, this feature is currently under review to ensure a robust and compliant implementation. This often requires server-side processing.',
     keywords: ['youtube', 'mp3', 'converter', 'audio extractor', 'download music'],
     icon: Youtube,
     category: 'Converters',
@@ -209,8 +213,8 @@ export const toolsList: Tool[] = [
   {
     slug: 'youtube-to-mp4-converter',
     name: 'YouTube to MP4 Converter',
-    description: 'Download YouTube videos as MP4 files.',
-    longDescription: 'Download YouTube videos in MP4 format for offline viewing. This tool is currently under construction as it requires server-side processing.',
+    description: 'Download YouTube videos as MP4 files. (Under Review)',
+    longDescription: 'This tool aims to download YouTube videos in MP4 format for offline viewing. Due to the complexities and policy considerations of interacting with third-party services like YouTube, this feature is currently under review to ensure a robust and compliant implementation. This often requires server-side processing.',
     keywords: ['youtube', 'mp4', 'video downloader', 'converter', 'offline video'],
     icon: Youtube,
     category: 'Converters',
@@ -684,5 +688,6 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
 };
 
 export const allTools = toolsList;
+
 
 
