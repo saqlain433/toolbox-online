@@ -5,6 +5,7 @@
 
 
 
+
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -51,7 +52,7 @@ import {
   Beaker, 
   ArrowRightLeft, 
   Landmark, 
-  Minimize2, // Added for Minifier tools
+  Minimize2, 
 } from 'lucide-react';
 
 // Dynamically import tool components to enable code splitting
@@ -107,6 +108,15 @@ const CssMinifierTool = dynamic(() => import('@/components/tools/CssMinifierTool
 const JavaScriptMinifierTool = dynamic(() => import('@/components/tools/JavaScriptMinifierTool').then(mod => mod.JavaScriptMinifierTool));
 
 
+// Productivity and Security Tools Implementations
+const OnlineNotepadTool = dynamic(() => import('@/components/tools/OnlineNotepadTool').then(mod => mod.OnlineNotepadTool));
+const StopwatchTool = dynamic(() => import('@/components/tools/StopwatchTool').then(mod => mod.StopwatchTool));
+const CountdownTimerTool = dynamic(() => import('@/components/tools/CountdownTimerTool').then(mod => mod.CountdownTimerTool));
+const TextEncryptorDecryptorTool = dynamic(() => import('@/components/tools/TextEncryptorDecryptorTool').then(mod => mod.TextEncryptorDecryptorTool));
+const Md5HashGeneratorTool = dynamic(() => import('@/components/tools/Md5HashGeneratorTool').then(mod => mod.Md5HashGeneratorTool));
+const Sha256HashGeneratorTool = dynamic(() => import('@/components/tools/Sha256HashGeneratorTool').then(mod => mod.Sha256HashGeneratorTool));
+
+
 // Placeholder components for complex tools
 const PlaceholderTool = ({ name, specificMessage }: { name: string, specificMessage?: string }) => (
   <div className="p-6 border rounded-lg bg-card shadow-sm text-center">
@@ -123,18 +133,12 @@ const PlaceholderTool = ({ name, specificMessage }: { name: string, specificMess
 const YoutubeToMp3Tool = dynamic(() => import('@/components/tools/YoutubeToMp3Tool').then(mod => mod.YoutubeToMp3Tool));
 const YoutubeToMp4Tool = dynamic(() => import('@/components/tools/YoutubeToMp4Tool').then(mod => mod.YoutubeToMp4Tool));
 
-const OnlineNotepadTool = () => <PlaceholderTool name="Online Notepad" />;
-const TextEncryptorDecryptorTool = () => <PlaceholderTool name="Text Encryptor/Decryptor" />;
 const IpAddressCheckerTool = () => <PlaceholderTool name="IP Address Checker" />;
 const DomainAgeCheckerTool = () => <PlaceholderTool name="Domain Age Checker" />;
 const MetaTagGeneratorTool = () => <PlaceholderTool name="Meta Tag Generator" />;
 const UtmLinkGeneratorTool = () => <PlaceholderTool name="UTM Link Generator" />;
 const EmailValidatorTool = () => <PlaceholderTool name="Email Validator" />;
 const CreditCardValidatorTool = () => <PlaceholderTool name="Credit Card Validator" />;
-const Md5HashGeneratorTool = () => <PlaceholderTool name="MD5 Hash Generator" />;
-const Sha256HashGeneratorTool = () => <PlaceholderTool name="SHA256 Hash Generator" />;
-const StopwatchTool = () => <PlaceholderTool name="Stopwatch" />;
-const CountdownTimerTool = () => <PlaceholderTool name="Countdown Timer" />;
 
 
 export const toolsList: Tool[] = [
@@ -472,8 +476,8 @@ export const toolsList: Tool[] = [
     slug: 'online-notepad', 
     name: 'Online Notepad', 
     description: 'A simple online notepad for quick notes and temporary text storage.', 
-    longDescription: 'Jot down quick notes, ideas, or temporary text with this simple browser-based notepad. This tool is currently under construction.',
-    keywords: ['notepad online', 'text editor', 'quick notes', 'scratchpad'], 
+    longDescription: 'Jot down quick notes, ideas, or temporary text with this simple browser-based notepad. Notes are saved in local browser storage.',
+    keywords: ['notepad online', 'text editor', 'quick notes', 'scratchpad', 'local storage'], 
     icon: Notebook, 
     category: 'Productivity', 
     component: OnlineNotepadTool 
@@ -511,9 +515,9 @@ export const toolsList: Tool[] = [
   { 
     slug: 'text-encryptor-decryptor', 
     name: 'Text Encryptor/Decryptor', 
-    description: 'Encrypt and decrypt text using common algorithms (e.g., AES - placeholder).', 
-    longDescription: 'Secure your text by encrypting it, and decrypt it back when needed. (Note: Actual strong encryption is complex for client-side). This tool is currently under construction.',
-    keywords: ['text encryption', 'text decryption', 'security', 'cipher', 'privacy tool'], 
+    description: 'Encrypt and decrypt text using AES-GCM algorithm.', 
+    longDescription: 'Secure your text by encrypting it with AES-GCM, and decrypt it back when needed. Requires a password. All operations are client-side.',
+    keywords: ['text encryption', 'text decryption', 'security', 'cipher', 'privacy tool', 'aes', 'gcm'], 
     icon: Lock, 
     category: 'Security', 
     component: TextEncryptorDecryptorTool 
@@ -601,9 +605,9 @@ export const toolsList: Tool[] = [
   { 
     slug: 'md5-hash-generator', 
     name: 'MD5 Hash Generator', 
-    description: 'Generate MD5 hash for any given text or string.', 
-    longDescription: 'Create an MD5 hash from your input text. MD5 is a widely used cryptographic hash function. This tool is currently under construction.',
-    keywords: ['md5 generator', 'hashing tool', 'cryptography (basic)', 'checksum'], 
+    description: 'Generate MD5-like (SHA-1) hash for any given text.', 
+    longDescription: 'Create a SHA-1 hash from your input text (MD5 is insecure and not directly available via Web Crypto API). Useful for non-security-critical checksums or legacy needs.',
+    keywords: ['md5 generator', 'sha1 generator', 'hashing tool', 'checksum'], 
     icon: Hash, 
     category: 'Security', 
     component: Md5HashGeneratorTool 
@@ -612,7 +616,7 @@ export const toolsList: Tool[] = [
     slug: 'sha256-hash-generator', 
     name: 'SHA256 Hash Generator', 
     description: 'Generate SHA256 hash for your text or data.', 
-    longDescription: 'Produce a SHA256 hash from your input text. SHA256 is a secure hashing algorithm. This tool is currently under construction.',
+    longDescription: 'Produce a SHA256 hash from your input text. SHA256 is a secure hashing algorithm available via Web Crypto API.',
     keywords: ['sha256 generator', 'hashing tool', 'cryptography', 'secure hash'], 
     icon: Hash, 
     category: 'Security', 
@@ -624,7 +628,7 @@ export const toolsList: Tool[] = [
     description: 'Convert various units (length, weight, volume).', 
     longDescription: 'A comprehensive tool to convert between different units of measurement for length, weight, and volume.',
     keywords: ['unit converter', 'measurement tool', 'conversion calculator', 'metric imperial', 'length', 'weight', 'volume'], 
-    icon: Scale, // Using Scale as a general icon, specific ones like Ruler/Beaker used in component.
+    icon: Scale, 
     category: 'Converters', 
     component: UnitConverterTool 
   },
@@ -642,7 +646,7 @@ export const toolsList: Tool[] = [
     slug: 'stopwatch', 
     name: 'Stopwatch', 
     description: 'An online stopwatch to measure elapsed time with lap functionality.', 
-    longDescription: 'A simple and accurate online stopwatch to time events, with options for laps and splits. This tool is currently under construction.',
+    longDescription: 'A simple and accurate online stopwatch to time events, with options for laps and splits.',
     keywords: ['stopwatch', 'timer online', 'lap timer', 'time measurement'], 
     icon: Timer, 
     category: 'Productivity', 
@@ -652,7 +656,7 @@ export const toolsList: Tool[] = [
     slug: 'countdown-timer', 
     name: 'Countdown Timer', 
     description: 'Set an online countdown timer for various purposes.', 
-    longDescription: 'A versatile online countdown timer. Set a specific duration and get alerted when the time is up. This tool is currently under construction.',
+    longDescription: 'A versatile online countdown timer. Set a specific duration and get alerted when the time is up. Plays a sound notification.',
     keywords: ['countdown timer', 'timer online', 'alarm', 'time management'], 
     icon: Timer, 
     category: 'Productivity', 
@@ -696,6 +700,7 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
 };
 
 export const allTools = toolsList;
+
 
 
 
