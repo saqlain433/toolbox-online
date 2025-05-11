@@ -6,6 +6,7 @@
 
 
 
+
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -53,6 +54,8 @@ import {
   ArrowRightLeft, 
   Landmark, 
   Minimize2, 
+  Wifi,
+  CalendarSearch,
 } from 'lucide-react';
 
 // Dynamically import tool components to enable code splitting
@@ -133,12 +136,15 @@ const PlaceholderTool = ({ name, specificMessage }: { name: string, specificMess
 const YoutubeToMp3Tool = dynamic(() => import('@/components/tools/YoutubeToMp3Tool').then(mod => mod.YoutubeToMp3Tool));
 const YoutubeToMp4Tool = dynamic(() => import('@/components/tools/YoutubeToMp4Tool').then(mod => mod.YoutubeToMp4Tool));
 
-const IpAddressCheckerTool = () => <PlaceholderTool name="IP Address Checker" />;
-const DomainAgeCheckerTool = () => <PlaceholderTool name="Domain Age Checker" />;
-const MetaTagGeneratorTool = () => <PlaceholderTool name="Meta Tag Generator" />;
-const UtmLinkGeneratorTool = () => <PlaceholderTool name="UTM Link Generator" />;
-const EmailValidatorTool = () => <PlaceholderTool name="Email Validator" />;
-const CreditCardValidatorTool = () => <PlaceholderTool name="Credit Card Validator" />;
+// Network and SEO tools implementations
+const IpAddressCheckerTool = dynamic(() => import('@/components/tools/IpAddressCheckerTool').then(mod => mod.IpAddressCheckerTool));
+const DomainAgeCheckerTool = dynamic(() => import('@/components/tools/DomainAgeCheckerTool').then(mod => mod.DomainAgeCheckerTool));
+const MetaTagGeneratorTool = dynamic(() => import('@/components/tools/MetaTagGeneratorTool').then(mod => mod.MetaTagGeneratorTool));
+const UtmLinkGeneratorTool = dynamic(() => import('@/components/tools/UtmLinkGeneratorTool').then(mod => mod.UtmLinkGeneratorTool));
+
+// Validation Tools implementations
+const EmailValidatorTool = dynamic(() => import('@/components/tools/EmailValidatorTool').then(mod => mod.EmailValidatorTool));
+const CreditCardValidatorTool = dynamic(() => import('@/components/tools/CreditCardValidatorTool').then(mod => mod.CreditCardValidatorTool));
 
 
 export const toolsList: Tool[] = [
@@ -149,8 +155,18 @@ export const toolsList: Tool[] = [
     longDescription: 'Leverage artificial intelligence to craft compelling, SEO-optimized meta descriptions for your tools or content. Enhance visibility and click-through rates.',
     keywords: ['seo', 'ai content', 'meta description', 'optimizer', 'content generator'],
     icon: Brain,
-    category: 'AI & SEO',
+    category: 'AI Tools',
     component: SeoOptimizerTool,
+  },
+  {
+    slug: 'meta-tag-generator', 
+    name: 'Meta Tag Generator', 
+    description: 'Generate HTML meta tags for SEO and social sharing.', 
+    longDescription: 'Create essential HTML meta tags (title, description, keywords, Open Graph, Twitter Cards) for your web pages.',
+    keywords: ['meta tag generator', 'seo tool', 'html meta tags', 'open graph', 'twitter cards'], 
+    icon: Tag, 
+    category: 'SEO Tools', 
+    component: MetaTagGeneratorTool 
   },
   {
     slug: 'word-counter',
@@ -545,39 +561,29 @@ export const toolsList: Tool[] = [
   { 
     slug: 'ip-address-checker', 
     name: 'IP Address Checker', 
-    description: 'Check your public IP address and get related information.', 
-    longDescription: 'Find out your current public IP address and potentially other network-related details. This tool is currently under construction.',
-    keywords: ['ip address', 'network tool', 'my ip', 'geolocation (placeholder)'], 
-    icon: Globe, 
+    description: 'Check your public IP address.', 
+    longDescription: 'Find out your current public IP address using an external service. Simple and quick.',
+    keywords: ['ip address', 'network tool', 'my ip', 'public ip'], 
+    icon: Wifi, 
     category: 'Network Tools', 
     component: IpAddressCheckerTool 
   },
   { 
     slug: 'domain-age-checker', 
     name: 'Domain Age Checker', 
-    description: 'Check the age of a domain name (requires external API - placeholder).', 
-    longDescription: 'Discover how old a domain name is by checking its registration date. (Note: Requires external service integration). This tool is currently under construction.',
-    keywords: ['domain age', 'seo tool', 'whois lookup (placeholder)', 'website analysis'], 
-    icon: Globe, 
+    description: 'Information about domain age checking (conceptual).', 
+    longDescription: 'Learn about the complexities of domain age checking. This tool is conceptual due to client-side limitations for WHOIS lookups.',
+    keywords: ['domain age', 'seo tool', 'whois lookup', 'website analysis'], 
+    icon: CalendarSearch, 
     category: 'SEO Tools', 
     component: DomainAgeCheckerTool 
-  },
-  { 
-    slug: 'meta-tag-generator', 
-    name: 'Meta Tag Generator', 
-    description: 'Generate HTML meta tags for SEO and social sharing.', 
-    longDescription: 'Create essential HTML meta tags (title, description, keywords, Open Graph, Twitter Cards) for your web pages. This tool is currently under construction.',
-    keywords: ['meta tag generator', 'seo tool', 'html meta tags', 'open graph', 'twitter cards'], 
-    icon: Tag, 
-    category: 'SEO Tools', 
-    component: MetaTagGeneratorTool 
   },
   { 
     slug: 'utm-link-generator', 
     name: 'UTM Link Generator', 
     description: 'Generate UTM tracking links for your marketing campaigns.', 
-    longDescription: 'Easily create URLs with UTM parameters to track the effectiveness of your online marketing campaigns. This tool is currently under construction.',
-    keywords: ['utm generator', 'marketing tool', 'campaign tracking', 'url builder'], 
+    longDescription: 'Easily create URLs with UTM parameters to track the effectiveness of your online marketing campaigns in analytics platforms.',
+    keywords: ['utm generator', 'marketing tool', 'campaign tracking', 'url builder', 'analytics'], 
     icon: Link2, 
     category: 'Marketing Tools', 
     component: UtmLinkGeneratorTool 
@@ -585,8 +591,8 @@ export const toolsList: Tool[] = [
   { 
     slug: 'email-validator', 
     name: 'Email Validator', 
-    description: 'Validate the format of email addresses (syntax check).', 
-    longDescription: 'Check if an email address is syntactically correct. (Note: Does not verify actual existence). This tool is currently under construction.',
+    description: 'Validate the format of email addresses (syntax check only).', 
+    longDescription: 'Check if an email address is syntactically correct. This tool performs a client-side format check and does not verify actual email existence or deliverability.',
     keywords: ['email validator', 'data validation', 'email format', 'syntax check'], 
     icon: MailCheck, 
     category: 'Validation Tools', 
@@ -595,9 +601,9 @@ export const toolsList: Tool[] = [
   { 
     slug: 'credit-card-validator', 
     name: 'Credit Card Validator', 
-    description: 'Validate credit card numbers using the Luhn algorithm (for format checking only).', 
-    longDescription: 'Check if a credit card number is potentially valid based on the Luhn algorithm. Does not verify authenticity or funds. This tool is currently under construction.',
-    keywords: ['credit card validator', 'luhn algorithm', 'format validation', 'security (test tool)'], 
+    description: 'Validate credit card numbers using the Luhn algorithm (format check only).', 
+    longDescription: 'Check if a credit card number is potentially valid based on the Luhn algorithm. This tool is for educational/testing purposes with non-sensitive numbers and does not verify authenticity or funds.',
+    keywords: ['credit card validator', 'luhn algorithm', 'format validation', 'security test tool'], 
     icon: CreditCard, 
     category: 'Validation Tools', 
     component: CreditCardValidatorTool 
@@ -695,11 +701,14 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
       acc[tool.category] = [];
     }
     acc[tool.category].push(tool);
+    // Sort tools alphabetically within each category
+    acc[tool.category].sort((a, b) => a.name.localeCompare(b.name));
     return acc;
   }, {} as Record<string, Tool[]>);
 };
 
 export const allTools = toolsList;
+
 
 
 

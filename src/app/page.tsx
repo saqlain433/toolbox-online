@@ -1,3 +1,4 @@
+
 import { getToolsByCategory } from '@/lib/tools';
 import ToolCard from '@/components/ToolCard';
 import type { Metadata } from 'next';
@@ -9,6 +10,9 @@ export const metadata: Metadata = {
 
 export default function HomePage() {
   const toolsByCat = getToolsByCategory();
+
+  // Get category names and sort them alphabetically
+  const sortedCategories = Object.keys(toolsByCat).sort((a, b) => a.localeCompare(b));
 
   return (
     <div className="space-y-12">
@@ -22,13 +26,13 @@ export default function HomePage() {
         </p>
       </section>
 
-      {Object.entries(toolsByCat).map(([category, tools]) => (
+      {sortedCategories.map((category) => (
         <section key={category} className="mb-12">
           <h2 className="text-3xl font-semibold mb-6 pb-2 border-b border-primary/30 text-foreground">
             {category}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {tools.map((tool) => (
+            {toolsByCat[category].map((tool) => (
               <ToolCard key={tool.slug} tool={tool} />
             ))}
           </div>
@@ -37,3 +41,4 @@ export default function HomePage() {
     </div>
   );
 }
+
