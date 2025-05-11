@@ -4,6 +4,7 @@
 
 
 
+
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -49,7 +50,8 @@ import {
   Ruler, 
   Beaker, 
   ArrowRightLeft, 
-  Landmark, // Added for LoanCalculatorTool
+  Landmark, 
+  Minimize2, // Added for Minifier tools
 } from 'lucide-react';
 
 // Dynamically import tool components to enable code splitting
@@ -96,6 +98,14 @@ const TemperatureConverterTool = dynamic(() => import('@/components/tools/Temper
 // Calculator implementations
 const LoanCalculatorTool = dynamic(() => import('@/components/tools/LoanCalculatorTool').then(mod => mod.LoanCalculatorTool));
 
+// Developer Tools implementations
+const Base64EncoderTool = dynamic(() => import('@/components/tools/Base64EncoderTool').then(mod => mod.Base64EncoderTool));
+const Base64DecoderTool = dynamic(() => import('@/components/tools/Base64DecoderTool').then(mod => mod.Base64DecoderTool));
+const XmlFormatterTool = dynamic(() => import('@/components/tools/XmlFormatterTool').then(mod => mod.XmlFormatterTool));
+const HtmlMinifierTool = dynamic(() => import('@/components/tools/HtmlMinifierTool').then(mod => mod.HtmlMinifierTool));
+const CssMinifierTool = dynamic(() => import('@/components/tools/CssMinifierTool').then(mod => mod.CssMinifierTool));
+const JavaScriptMinifierTool = dynamic(() => import('@/components/tools/JavaScriptMinifierTool').then(mod => mod.JavaScriptMinifierTool));
+
 
 // Placeholder components for complex tools
 const PlaceholderTool = ({ name, specificMessage }: { name: string, specificMessage?: string }) => (
@@ -113,12 +123,6 @@ const PlaceholderTool = ({ name, specificMessage }: { name: string, specificMess
 const YoutubeToMp3Tool = dynamic(() => import('@/components/tools/YoutubeToMp3Tool').then(mod => mod.YoutubeToMp3Tool));
 const YoutubeToMp4Tool = dynamic(() => import('@/components/tools/YoutubeToMp4Tool').then(mod => mod.YoutubeToMp4Tool));
 
-const Base64EncoderTool = () => <PlaceholderTool name="Base64 Encoder" />;
-const Base64DecoderTool = () => <PlaceholderTool name="Base64 Decoder" />;
-const XmlFormatterTool = () => <PlaceholderTool name="XML Formatter" />;
-const HtmlMinifierTool = () => <PlaceholderTool name="HTML Minifier" />;
-const CssMinifierTool = () => <PlaceholderTool name="CSS Minifier" />;
-const JavaScriptMinifierTool = () => <PlaceholderTool name="JavaScript Minifier" />;
 const OnlineNotepadTool = () => <PlaceholderTool name="Online Notepad" />;
 const TextEncryptorDecryptorTool = () => <PlaceholderTool name="Text Encryptor/Decryptor" />;
 const IpAddressCheckerTool = () => <PlaceholderTool name="IP Address Checker" />;
@@ -328,8 +332,8 @@ export const toolsList: Tool[] = [
     slug: 'base64-encoder', 
     name: 'Base64 Encoder', 
     description: 'Encode your text or data into Base64 format.', 
-    longDescription: 'Convert plain text or other data into its Base64 encoded string representation. This tool is currently under construction.',
-    keywords: ['base64 encode', 'data encoding', 'string encoding', 'developer tool'], 
+    longDescription: 'Convert plain text or other data into its Base64 encoded string representation. Handles UTF-8 characters.',
+    keywords: ['base64 encode', 'data encoding', 'string encoding', 'developer tool', 'utf8'], 
     icon: Parentheses, 
     category: 'Developer Tools', 
     component: Base64EncoderTool 
@@ -338,8 +342,8 @@ export const toolsList: Tool[] = [
     slug: 'base64-decoder', 
     name: 'Base64 Decoder', 
     description: 'Decode Base64 encoded strings back to their original form.', 
-    longDescription: 'Convert Base64 encoded strings back into their original human-readable format. This tool is currently under construction.',
-    keywords: ['base64 decode', 'data decoding', 'string decoding', 'developer tool'], 
+    longDescription: 'Convert Base64 encoded strings back into their original human-readable format. Handles UTF-8 characters.',
+    keywords: ['base64 decode', 'data decoding', 'string decoding', 'developer tool', 'utf8'], 
     icon: Parentheses, 
     category: 'Developer Tools', 
     component: Base64DecoderTool 
@@ -358,8 +362,8 @@ export const toolsList: Tool[] = [
     slug: 'xml-formatter', 
     name: 'XML Formatter', 
     description: 'Format and validate XML data for improved readability.', 
-    longDescription: 'Beautify (pretty-print) your XML data to make it easier to read and understand. This tool is currently under construction.',
-    keywords: ['xml formatter', 'xml validator', 'xml beautifier', 'developer tool'], 
+    longDescription: 'Beautify (pretty-print) your XML data to make it easier to read and understand. Checks for well-formedness.',
+    keywords: ['xml formatter', 'xml validator', 'xml beautifier', 'developer tool', 'pretty print xml'], 
     icon: FileJson, 
     category: 'Developer Tools', 
     component: XmlFormatterTool 
@@ -368,9 +372,9 @@ export const toolsList: Tool[] = [
     slug: 'html-minifier', 
     name: 'HTML Minifier', 
     description: 'Minify HTML code to reduce file size and improve load times.', 
-    longDescription: 'Remove unnecessary characters from HTML code, like whitespace and comments, to reduce file size. This tool is currently under construction.',
-    keywords: ['html minifier', 'code optimization', 'web performance', 'developer tool'], 
-    icon: Minimize, 
+    longDescription: 'Remove unnecessary characters from HTML code, like whitespace and comments, to reduce file size. Basic client-side minification.',
+    keywords: ['html minifier', 'code optimization', 'web performance', 'developer tool', 'minify html'], 
+    icon: Minimize2, 
     category: 'Developer Tools', 
     component: HtmlMinifierTool 
   },
@@ -378,9 +382,9 @@ export const toolsList: Tool[] = [
     slug: 'css-minifier', 
     name: 'CSS Minifier', 
     description: 'Minify CSS code to reduce file size for faster website loading.', 
-    longDescription: 'Compress CSS code by removing unnecessary characters, such as whitespace and comments, to optimize file size. This tool is currently under construction.',
-    keywords: ['css minifier', 'code optimization', 'stylesheet optimization', 'developer tool'], 
-    icon: Minimize, 
+    longDescription: 'Compress CSS code by removing unnecessary characters, such as whitespace and comments, to optimize file size. Basic client-side minification.',
+    keywords: ['css minifier', 'code optimization', 'stylesheet optimization', 'developer tool', 'minify css'], 
+    icon: Minimize2, 
     category: 'Developer Tools', 
     component: CssMinifierTool 
   },
@@ -388,9 +392,9 @@ export const toolsList: Tool[] = [
     slug: 'javascript-minifier', 
     name: 'JavaScript Minifier', 
     description: 'Minify JavaScript code for smaller file sizes and faster execution.', 
-    longDescription: 'Reduce the size of JavaScript files by removing whitespace, comments, and shortening variable names (optional). This tool is currently under construction.',
-    keywords: ['js minifier', 'javascript optimization', 'code compression', 'developer tool'], 
-    icon: Minimize, 
+    longDescription: 'Reduce the size of JavaScript files by removing comments and some whitespace. Note: This is a very basic minifier, not suitable for production without testing.',
+    keywords: ['js minifier', 'javascript optimization', 'code compression', 'developer tool', 'minify js'], 
+    icon: Minimize2, 
     category: 'Developer Tools', 
     component: JavaScriptMinifierTool 
   },
@@ -692,6 +696,7 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
 };
 
 export const allTools = toolsList;
+
 
 
 
