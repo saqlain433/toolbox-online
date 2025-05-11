@@ -3,6 +3,7 @@
 
 
 
+
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -45,9 +46,10 @@ import {
   CalendarDays,
   Parentheses,
   UploadCloud,
-  Ruler, // Added for UnitConverterTool
-  Beaker, // Added for UnitConverterTool
-  ArrowRightLeft, // For Binary/Decimal tools, if needed as distinct from Wand2
+  Ruler, 
+  Beaker, 
+  ArrowRightLeft, 
+  Landmark, // Added for LoanCalculatorTool
 } from 'lucide-react';
 
 // Dynamically import tool components to enable code splitting
@@ -91,6 +93,9 @@ const DecimalToBinaryConverterTool = dynamic(() => import('@/components/tools/De
 const UnitConverterTool = dynamic(() => import('@/components/tools/UnitConverterTool').then(mod => mod.UnitConverterTool));
 const TemperatureConverterTool = dynamic(() => import('@/components/tools/TemperatureConverterTool').then(mod => mod.TemperatureConverterTool));
 
+// Calculator implementations
+const LoanCalculatorTool = dynamic(() => import('@/components/tools/LoanCalculatorTool').then(mod => mod.LoanCalculatorTool));
+
 
 // Placeholder components for complex tools
 const PlaceholderTool = ({ name, specificMessage }: { name: string, specificMessage?: string }) => (
@@ -108,7 +113,6 @@ const PlaceholderTool = ({ name, specificMessage }: { name: string, specificMess
 const YoutubeToMp3Tool = dynamic(() => import('@/components/tools/YoutubeToMp3Tool').then(mod => mod.YoutubeToMp3Tool));
 const YoutubeToMp4Tool = dynamic(() => import('@/components/tools/YoutubeToMp4Tool').then(mod => mod.YoutubeToMp4Tool));
 
-const LoanCalculatorTool = () => <PlaceholderTool name="Loan Calculator" />;
 const Base64EncoderTool = () => <PlaceholderTool name="Base64 Encoder" />;
 const Base64DecoderTool = () => <PlaceholderTool name="Base64 Decoder" />;
 const XmlFormatterTool = () => <PlaceholderTool name="XML Formatter" />;
@@ -203,8 +207,8 @@ export const toolsList: Tool[] = [
   {
     slug: 'youtube-to-mp3-converter',
     name: 'YouTube to MP3 Converter',
-    description: 'Convert YouTube videos to MP3 audio files. (Under Review)',
-    longDescription: 'This tool aims to extract audio from YouTube videos and save them as MP3 files. Due to the complexities and policy considerations of interacting with third-party services like YouTube, this feature is currently under review to ensure a robust and compliant implementation. This often requires server-side processing.',
+    description: 'Convert YouTube videos to MP3 audio files.',
+    longDescription: 'This tool aims to extract audio from YouTube videos and save them as MP3 files. This functionality often requires server-side processing and must comply with platform terms of service.',
     keywords: ['youtube', 'mp3', 'converter', 'audio extractor', 'download music'],
     icon: Youtube,
     category: 'Converters',
@@ -213,8 +217,8 @@ export const toolsList: Tool[] = [
   {
     slug: 'youtube-to-mp4-converter',
     name: 'YouTube to MP4 Converter',
-    description: 'Download YouTube videos as MP4 files. (Under Review)',
-    longDescription: 'This tool aims to download YouTube videos in MP4 format for offline viewing. Due to the complexities and policy considerations of interacting with third-party services like YouTube, this feature is currently under review to ensure a robust and compliant implementation. This often requires server-side processing.',
+    description: 'Download YouTube videos as MP4 files.',
+    longDescription: 'This tool aims to download YouTube videos in MP4 format. This functionality often requires server-side processing and must comply with platform terms of service.',
     keywords: ['youtube', 'mp4', 'video downloader', 'converter', 'offline video'],
     icon: Youtube,
     category: 'Converters',
@@ -296,7 +300,7 @@ export const toolsList: Tool[] = [
     description: 'Calculate your Body Mass Index (BMI) using metric or imperial units.', 
     longDescription: 'Determine your Body Mass Index by entering your height and weight. Supports both metric (cm, kg) and imperial (ft, in, lbs) units.',
     keywords: ['bmi calculator', 'health tool', 'body mass index', 'weight management'], 
-    icon: Calculator, // Consider a specific health icon if available
+    icon: Calculator, 
     category: 'Calculators', 
     component: BmiCalculatorTool 
   },
@@ -304,9 +308,9 @@ export const toolsList: Tool[] = [
     slug: 'loan-calculator', 
     name: 'Loan Calculator', 
     description: 'Calculate loan payments, interest, and amortization schedules.', 
-    longDescription: 'Estimate your loan payments, total interest paid, and view an amortization schedule based on loan amount, interest rate, and term. This tool is currently under construction.',
-    keywords: ['loan calculator', 'finance tool', 'mortgage calculator', 'amortization'], 
-    icon: Calculator, 
+    longDescription: 'Estimate your loan payments, total principal, total interest, and total amount paid based on loan amount, interest rate, and term.',
+    keywords: ['loan calculator', 'finance tool', 'mortgage calculator', 'amortization', 'monthly payment'], 
+    icon: Landmark, 
     category: 'Calculators', 
     component: LoanCalculatorTool 
   },
@@ -688,6 +692,7 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
 };
 
 export const allTools = toolsList;
+
 
 
 

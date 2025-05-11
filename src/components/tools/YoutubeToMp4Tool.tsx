@@ -1,29 +1,44 @@
 
 "use client";
 
-import { Youtube } from 'lucide-react';
+import { Youtube, ServerCrash, Info } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-const SpecificPlaceholderTool = ({ name, specificMessage }: { name: string, specificMessage: string }) => (
-  <div className="p-6 border rounded-lg bg-card shadow-sm text-center">
+// Re-using the improved placeholder component
+const YoutubeMediaToolPlaceholder = ({ name, mediaType }: { name: string, mediaType: string }) => (
+  <div className="p-6 border rounded-lg bg-card shadow-sm text-center space-y-6">
     <div className="flex flex-col items-center justify-center">
-      <Youtube className="h-16 w-16 text-muted-foreground mb-4" />
-      <h2 className="text-xl font-semibold mb-2 text-foreground">{name}</h2>
-      <p className="text-muted-foreground mb-3">{specificMessage}</p>
-      <div className="max-w-md mx-auto text-sm text-muted-foreground space-y-2">
+      <Youtube className="h-16 w-16 text-red-500 mb-4" />
+      <h2 className="text-2xl font-semibold mb-2 text-foreground">{name}</h2>
+      <p className="text-muted-foreground mb-4">Download YouTube videos in {mediaType} format.</p>
+    </div>
+
+    <Alert variant="default" className="text-left bg-secondary/50">
+      <Info className="h-5 w-5 text-primary" />
+      <AlertTitle className="font-semibold text-primary">Important Notice</AlertTitle>
+      <AlertDescription className="space-y-2 text-muted-foreground">
         <p>
-          Tools that interact directly with third-party services like YouTube for downloading or converting content often require server-side infrastructure to handle requests, process data, and manage potential API restrictions or terms of service compliance.
+          Tools that download or convert content from platforms like YouTube face significant technical and policy challenges when implemented purely on the client-side (in your browser).
         </p>
-        <p>
-          Implementing such features robustly and reliably solely on the client-side (in the browser) can be challenging due to technical limitations and policy considerations.
+        <ul className="list-disc list-inside pl-4 space-y-1 text-sm">
+          <li><strong>Terms of Service:</strong> Directly accessing YouTube content for conversion may violate their Terms of Service.</li>
+          <li><strong>API Limitations:</strong> Official APIs may not support direct downloads or conversions, and unofficial methods are unreliable and can break.</li>
+          <li><strong>Server-Side Processing:</strong> Reliable conversion and downloading typically require robust server-side infrastructure to handle requests, process media files, and manage API interactions securely and efficiently.</li>
+        </ul>
+        <p className="font-medium text-foreground/90 mt-2">
+          We are actively exploring solutions to offer this functionality in a compliant and reliable manner. Building a robust server-side component for this is a significant undertaking.
         </p>
-        <p className="font-medium text-foreground/80 mt-3">
-          We are exploring the best ways to offer this functionality. Thank you for your understanding!
-        </p>
-      </div>
+        <p>Thank you for your patience and understanding!</p>
+      </AlertDescription>
+    </Alert>
+
+    <div className="flex flex-col items-center justify-center mt-6 p-4 border-t border-border">
+        <ServerCrash className="h-12 w-12 text-muted-foreground mb-3"/>
+        <p className="text-sm text-muted-foreground">This tool is currently under advanced development to integrate necessary server-side capabilities.</p>
     </div>
   </div>
 );
 
 export function YoutubeToMp4Tool() {
-  return <SpecificPlaceholderTool name="YouTube to MP4 Converter" specificMessage="Download YouTube videos in MP4 format." />;
+  return <YoutubeMediaToolPlaceholder name="YouTube to MP4 Converter" mediaType="MP4 video" />;
 }
