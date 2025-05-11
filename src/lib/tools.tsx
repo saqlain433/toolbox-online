@@ -1,5 +1,6 @@
 
 
+
 import type { Tool } from '@/types';
 import {
   SigmaSquare,
@@ -54,8 +55,6 @@ const ColorPickerTool = dynamic(() => import('@/components/tools/ColorPickerTool
 const RgbToHexTool = dynamic(() => import('@/components/tools/RgbToHexTool').then(mod => mod.RgbToHexTool));
 const YoutubeThumbnailDownloaderTool = dynamic(() => import('@/components/tools/YoutubeThumbnailDownloaderTool').then(mod => mod.YoutubeThumbnailDownloaderTool));
 const TextToSpeechTool = dynamic(() => import('@/components/tools/TextToSpeechTool').then(mod => mod.TextToSpeechTool));
-
-// Newly implemented tools
 const CharacterCounterTool = dynamic(() => import('@/components/tools/CharacterCounterTool').then(mod => mod.CharacterCounterTool));
 const CaseConverterTool = dynamic(() => import('@/components/tools/CaseConverterTool').then(mod => mod.CaseConverterTool));
 const LoremIpsumGeneratorTool = dynamic(() => import('@/components/tools/LoremIpsumGeneratorTool').then(mod => mod.LoremIpsumGeneratorTool));
@@ -67,6 +66,13 @@ const BmiCalculatorTool = dynamic(() => import('@/components/tools/BmiCalculator
 const PercentageCalculatorTool = dynamic(() => import('@/components/tools/PercentageCalculatorTool').then(mod => mod.PercentageCalculatorTool));
 const JsonFormatterTool = dynamic(() => import('@/components/tools/JsonFormatterTool').then(mod => mod.JsonFormatterTool));
 const ImageCompressorTool = dynamic(() => import('@/components/tools/ImageCompressorTool').then(mod => mod.ImageCompressorTool));
+
+// Text Utilities implementations
+const TextRepeaterTool = dynamic(() => import('@/components/tools/TextRepeaterTool').then(mod => mod.TextRepeaterTool));
+const RemoveDuplicateLinesTool = dynamic(() => import('@/components/tools/RemoveDuplicateLinesTool').then(mod => mod.RemoveDuplicateLinesTool));
+const TextSortingTool = dynamic(() => import('@/components/tools/TextSortingTool').then(mod => mod.TextSortingTool));
+const PalindromeCheckerTool = dynamic(() => import('@/components/tools/PalindromeCheckerTool').then(mod => mod.PalindromeCheckerTool));
+const TextDiffCheckerTool = dynamic(() => import('@/components/tools/TextDiffCheckerTool').then(mod => mod.TextDiffCheckerTool));
 
 
 // Placeholder components for complex tools
@@ -93,11 +99,7 @@ const ImageToBase64Tool = () => <PlaceholderTool name="Image to Base64" />;
 const Base64ToImageTool = () => <PlaceholderTool name="Base64 to Image" />;
 const TimeConverterTool = () => <PlaceholderTool name="Time Converter" />;
 const EpochToHumanDateConverterTool = () => <PlaceholderTool name="Epoch to Human Date Converter" />;
-const TextRepeaterTool = () => <PlaceholderTool name="Text Repeater" />;
-const RemoveDuplicateLinesTool = () => <PlaceholderTool name="Remove Duplicate Lines Tool" />;
-const TextSortingTool = () => <PlaceholderTool name="Text Sorting Tool" />;
 const OnlineNotepadTool = () => <PlaceholderTool name="Online Notepad" />;
-const PalindromeCheckerTool = () => <PlaceholderTool name="Palindrome Checker" />;
 const NumberToWordsConverterTool = () => <PlaceholderTool name="Number to Words Converter" />;
 const WordsToNumberConverterTool = () => <PlaceholderTool name="Words to Number Converter" />;
 const TextEncryptorDecryptorTool = () => <PlaceholderTool name="Text Encryptor/Decryptor" />;
@@ -115,7 +117,6 @@ const UnitConverterTool = () => <PlaceholderTool name="Unit Converter" />;
 const TemperatureConverterTool = () => <PlaceholderTool name="Temperature Converter" />;
 const StopwatchTool = () => <PlaceholderTool name="Stopwatch" />;
 const CountdownTimerTool = () => <PlaceholderTool name="Countdown Timer" />;
-const TextDiffCheckerTool = () => <PlaceholderTool name="Text Diff Checker" />;
 
 
 export const toolsList: Tool[] = [
@@ -423,7 +424,7 @@ export const toolsList: Tool[] = [
     slug: 'text-repeater', 
     name: 'Text Repeater', 
     description: 'Repeat a piece of text a specified number of times.', 
-    longDescription: 'Generate repeated text quickly. Enter your text and the number of repetitions desired. This tool is currently under construction.',
+    longDescription: 'Generate repeated text quickly. Enter your text and the number of repetitions desired.',
     keywords: ['text repeater', 'string tool', 'repeat text', 'content generation'], 
     icon: Repeat, 
     category: 'Text Utilities', 
@@ -433,7 +434,7 @@ export const toolsList: Tool[] = [
     slug: 'remove-duplicate-lines', 
     name: 'Remove Duplicate Lines', 
     description: 'Remove duplicate lines from a block of text.', 
-    longDescription: 'Clean up your text by removing any lines that are exact duplicates, keeping only unique lines. This tool is currently under construction.',
+    longDescription: 'Clean up your text by removing any lines that are exact duplicates, keeping only unique lines. Options for case sensitivity and whitespace trimming.',
     keywords: ['duplicate lines remover', 'text cleanup', 'unique lines', 'data processing'], 
     icon: RemoveFormatting, 
     category: 'Text Utilities', 
@@ -442,9 +443,9 @@ export const toolsList: Tool[] = [
   { 
     slug: 'text-sorting-tool', 
     name: 'Text Sorting Tool', 
-    description: 'Sort lines of text alphabetically (A-Z or Z-A).', 
-    longDescription: 'Organize lines of text by sorting them in ascending (A-Z) or descending (Z-A) alphabetical order. This tool is currently under construction.',
-    keywords: ['text sorter', 'alphabetical sort', 'line sorting', 'data organization'], 
+    description: 'Sort lines of text alphabetically, by length, or numerically.', 
+    longDescription: 'Organize lines of text by sorting them in ascending or descending order. Supports alphabetical, length-based, and numeric sorting.',
+    keywords: ['text sorter', 'alphabetical sort', 'line sorting', 'data organization', 'numeric sort'], 
     icon: SortAsc, 
     category: 'Text Utilities', 
     component: TextSortingTool 
@@ -463,7 +464,7 @@ export const toolsList: Tool[] = [
     slug: 'palindrome-checker', 
     name: 'Palindrome Checker', 
     description: 'Check if a word, phrase, or number is a palindrome.', 
-    longDescription: 'Determine if the entered text or number reads the same forwards and backward (is a palindrome). This tool is currently under construction.',
+    longDescription: 'Determine if the entered text or number reads the same forwards and backward (is a palindrome). Options to ignore case and punctuation.',
     keywords: ['palindrome checker', 'string tool', 'word game', 'reverse text'], 
     icon: SpellCheck, 
     category: 'Text Utilities', 
@@ -643,9 +644,9 @@ export const toolsList: Tool[] = [
     slug: 'text-diff-checker', 
     name: 'Text Diff Checker', 
     description: 'Compare two blocks of text and highlight the differences.', 
-    longDescription: 'Easily find the differences between two pieces of text. Ideal for comparing documents or code snippets. This tool is currently under construction.',
+    longDescription: 'Easily find the differences between two pieces of text. Ideal for comparing documents or code snippets. Supports character, word, and line-level diffs.',
     keywords: ['text diff', 'compare text', 'difference checker', 'file comparison'], 
-    icon: Shuffle, // Consider 'GitCompare' or similar if available
+    icon: Shuffle, 
     category: 'Text Utilities', 
     component: TextDiffCheckerTool 
   },
@@ -677,3 +678,4 @@ export const getToolsByCategory = (): Record<string, Tool[]> => {
 };
 
 export const allTools = toolsList;
+
